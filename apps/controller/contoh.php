@@ -1,5 +1,5 @@
 <?php
-class user extends controller
+class contoh extends controller
 {
     function __construct()
     {

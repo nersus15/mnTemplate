@@ -20,9 +20,6 @@ class dbuilder
 
     function select($selection)
     {
-        // foreach($selection as $s){
-
-        // }
         if ($this->new) {
             $this->qeueu['select'][] = array(
                 'temp' => $selection
@@ -137,8 +134,6 @@ class dbuilder
     }
     function call_function($f, $t, $index)
     {
-        // var_dump($t);
-        // die;
         if ($f == "select")
             $this->select($t);
 
