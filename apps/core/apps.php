@@ -4,58 +4,59 @@ class apps
     protected $controller = controller_def;
     protected $method = method_def;
     protected $parameter = [];
+    protected $controller_path = '';
     public function __construct()
     {
-        $this->globalFunction();
         $url = $this->parseURL();
         //cek apakah ada file kontroller dengan nama sesuai di url
-        if (file_exists('apps/controller/' . $url[0] . '.php')) {
-            $this->controller = $url[0];
-            unset($url[0]);
-        } elseif ($url[0] == 'ws' && file_exists('apps/controller/ws/' . $url[1] . '.php')) {
-            $this->controller = $url[1];
-            unset($url[0]);
-            unset($url[1]);
-            $url[1] = $url[2];
-            $web_service = true;
-            require_once 'apps/controller/ws/' . $this->controller . '.php';
-        }
-        // var_dump($url);
-        if (!isset($web_service))
-            require_once 'apps/controller/' . $this->controller . '.php';
-
-        $this->controller = new $this->controller;
-
-
-        //cek apakah ada file method dengan nama sesuai di url
-        if (isset($url[1])) {
-            if (method_exists($this->controller, $url[1])) {
-                $this->method = $url[1];
-                unset($url[1]);
+        if (!empty($url)) {
+            if (count($url) > 1 && file_exists(APP_PATH . 'controller/' . $url[0] . '/' . $url[1] . '.php')) {
+                $this->controller_path = APP_PATH . 'controller/' . $url[0] . '/' . $url[1] . '.php';
+                $this->controller = $url[1];
+                if (count($url) >= 3) {
+                    $this->method = $url[2];
+                    unset($url[0], $url[1], $url[2]);
+                }
+            } elseif (file_exists(APP_PATH . 'controller/' . $url[0] . '.php')) {
+                $this->controller_path = APP_PATH . 'controller/' . $url[0] . '.php';
+                $this->controller = $url[0];
+                if (count($url) >= 2) {
+                    $this->method = $url[1];
+                    unset($url[0], $url[1]);
+                }elseif(count($url) == 1)
+                    unset($url[0]);
+            } else {
+                response(['message' => 'Halaman yang anda tuju tidak ditemukan'], 404, 'error');
+            }
+        } else {
+            if (!file_exists(APP_PATH . 'controller/' . $this->controller . '.php')) {
+                response(['message' => 'Halaman yang anda tuju tidak ditemukan'], 404, 'error');
+            } else {
+                $this->controller_path = APP_PATH . 'controller/' . $this->controller . '.php';
             }
         }
+
+        require_once $this->controller_path;
+        $controller = new $this->controller;
+        // var_dump($this->method);die;
+
         //cek apakah ada parameter yang dikirimkan
         if (!empty($url)) {
+            foreach($url as $k => $v){
+                if(empty($v))
+                    unset($url[$k]);
+            }
+            
             $this->parameter = array_values($url);
         }
-
         //menjalankan controller, method, daan paramter
-        call_user_func([$this->controller, $this->method], $this->parameter);
+        call_user_func([$controller, $this->method], $this->parameter);
     }
     public function parseURL()
     {
-        if (isset($_GET['url'])) {
-            $url = rtrim($_GET['url'], '/');
-            $url = filter_var($url, FILTER_SANITIZE_URL);
-            $url = explode('/', $url);
-            return $url;
-        }
-    }
-    public function globalFunction()
-    {
-        function redirect($url)
-        {
-            header("Location: " . $url);
-        }
+        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $url = str_replace(BASEURL, '', $actual_link);
+        // var_dump($url);die;
+        return empty($url) ? $url : explode('/', $url);
     }
 }
