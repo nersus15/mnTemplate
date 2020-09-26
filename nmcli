@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+cli_name='mncli'
+function create(){
+  jenis=$1 name="$2_$jenis.php" isi=$3 
+  "cat > apps/$jenis/$name << EOF
+    $isi
+  EOF
+  "
+}
+function cek_aksi(){
+  value=$1 commands=("controller\thelper\tmodel\tlibrary")
+  if [[ "\t${commands[@]}\t" =~ "\t${value}\t" ]]; then
+      valid=1
+  else
+      valid=""
+  fi
+}
+function help_log(){
+  [[ -z $2 ]] || echo " $1 $2 not found"
+  echo -e "Usage: \n $cli_name [options] argument ...\n"
+  echo "$package - attempt to capture frames"
+  echo " "
+  echo "$package [options] application [arguments]"
+  echo " "
+  echo -e " options:\n
+      -h, --help                show brief help\n
+      -c, --action=ACTION       menentukan file yang akan dibuat\n
+      -n, --name=NAME           mnentukan nama file\n
+      -o, --output-dir=DIR      specify a directory to store output in\n"
+  echo -e " actions:\n
+      model                     create model file\n
+      helper                    create helper file\n 
+      controller                create controller file\n
+      library                   create library file"
+  exit 0
+}
+while test $# -gt 0; do
+  case "$1" in
+    -h|--help)
+        help_log
+      ;;
+    -c)
+      shift
+      if test $# -gt 0; then
+        export ACTION=$1
+      else
+        echo "tidak ada jenis file yang di pilih"
+        exit 1
+      fi
+      shift
+      ;;
+    --create*)
+      export ACTION=`echo $1 | sed -e 's/^[^=]*=//g'`
+      shift
+      ;;
+      -n)
+      shift
+      if test $# -gt 0; then
+        export NAME=$1
+      else
+        echo "tidak ada nama file"
+        exit 1
+      fi
+      shift
+      ;;
+    --name*)
+      export PROCESS=`echo $1 | sed -e 's/^[^=]*=//g'`
+      shift
+      ;;
+    -o)
+      shift
+      if test $# -gt 0; then
+        export OUTPUT=$1
+      else
+        echo "no output dir specified"
+        exit 1
+      fi
+      shift
+      ;;
+    --output-dir*)
+      export OUTPUT=`echo $1 | sed -e 's/^[^=]*=//g'`
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+cek_aksi $ACTION
+
+if [[ -z $valid ]]
+then
+  help_log 'action' $ACTION 
+fi
+
+if [[ -z $NAME ]]
+then
+  echo -e "File name can't empty \n
+    Usage:\n
+    $cli_name -c [ACTIONS] -n <nama file>"
+  exit 1
+fi
+
+case "$ACTION" in
+  model)
+    class_name=$NAME"_model"
+    isi="<?php
+      class $NAME {
+
+      }
+    "
+    create 'models' $class_name $isi
+  ;;
+  helper)
+  ;;
+  library)
+  ;;
+  controller)
+  ;;
+esac
+
