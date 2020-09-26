@@ -2,10 +2,12 @@
 cli_name='mncli'
 function create(){
   jenis=$1 name="$2_$jenis.php" isi=$3 
-  "cat > apps/$jenis/$name << EOF
-    $isi
-  EOF
-  "
+  echo "->creating file $name ..."
+  
+  file="apps/$jenis/$name"
+  echo $isi > $file
+  cat $file
+  
 }
 function cek_aksi(){
   value=$1 commands=("controller\thelper\tmodel\tlibrary")
@@ -105,18 +107,23 @@ fi
 case "$ACTION" in
   model)
     class_name=$NAME"_model"
-    isi="<?php
-      class $NAME {
-
-      }
-    "
-    create 'models' $class_name $isi
+    isi="<?php class $class_name {}"
+    create 'models' "$NAME" "$isi"
   ;;
   helper)
+    class_name=$NAME"_helpor"
+    isi="<?php function first_func(){}"
+    create 'helpers' "$NAME" "$isi"
   ;;
   library)
+    class_name=$NAME"_library"
+    isi="<?php class $class_name {}"
+    create 'library' "$NAME" "$isi"
   ;;
   controller)
+    class_name=$NAME
+    isi="<?php class $class_name extends controller{}"
+    create 'controller' "$NAME" "$isi"
   ;;
 esac
 
