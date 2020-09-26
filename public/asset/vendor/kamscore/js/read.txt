@@ -1,0 +1,98 @@
+
+  Baca ini!
+  Cara membuat Configurasi/opsi untuk generate modal (digunakan sebagai parameter saat generate modal)
+  1. Configurasi dibuat dalam bentuk json
+  2. Susunan sebagai berikut:
+  'nama-config': {
+       modalId: 'id-modal' (String), untuk sebagai attribute id di element modal
+       wrapper: 'wrapper' (String), sebagai tempat modal di tempel cth ('.ini-wrapper-modal', atau '#ini-wrapper-juga')
+       opt: { , (Object), opsi untuk modal, susunannya: 
+           type: 'form', (String), tipe untuk modal (form, detail, def) ini belum selesai di kembangkan
+           open: true, (Bool), Ini untuk menentukan apakah modal akan langsung ditampilkan atau tidak
+           destroy: true, (Bool) Ini untuk menentukan apakah modal akan langsung dihapus ketika tutup atau tidak
+           modalPos: 'right', (String) posisi modal akan ditampilkan ('right', 'left', 'def') hanya tersedia untuk theme dore
+           saatBuka: ()=>{}, (Function), function yang akan dijalankan saat modal dibuka, tidak wajib ada
+           saatTutup: ()=>{}, (Function), function yang akan dijalankan saat modal ditutup, tidak wajib ada
+           formOpt: { (Object) option untuk form dalam modal, ini wajib jika opt.type = 'form'
+               enctype: 'multipart/form-data', (String) bisa kosong
+               formId: "form-login", (String) wajib
+               formAct: "url", (String) wajib
+               formMethod: 'POST', (String) bisa kosong (default POST),
+            }
+           modalTitle: 'Title' (String) bisa kosong (def 'Untitled'),
+           modalSubtitle: 'sub' (String) bisa kosong (def '')
+           modalBody: { (Object) wajib, untuk isi dari modal
+               cardDisplay: 'grid'. (String) baru support untuk grid, untuk mengatur tampilan card,
+               extra: (String Html), element tambahanan
+               input: [ (Array)
+                   { (Object), untuk masing masing input
+                       type: 'text' (String), wajib, Belum support type radio dan textarea
+                       name: 'name' (String), wajib,
+                       label: 'label' (Sting), boleh kosong,
+                       id: 'id' (String), wajib,
+                       attribut: 'attribut' (String), boleh kosong,
+                       class: 'class' (String), boleh kosong,
+                       fgClass: 'class' (String), class tambahan untuk <div class="form-group"></> boleh kosong,
+                       labelClass: 'class' (String), calass tambahan untuk <label></label> boleh kosong,
+                       value: 'default value' (String/number/bool), Boleh kosong, untuk defaul value dari tag input atau selected untuk select, 
+                       options: { (Object) khusus untuk type select cth:
+                           'value-untuk-opsi1': 'Opsi satu,
+                           'value-untuk-opsi2': 'Opsi dua,
+                       } 
+                   }
+               ],
+              card: [ (Array)
+                   { (Object)
+                       id: (String) wajib
+                       class: (String) opsional
+                       styles: (String) opsional, class tambahan untuk card
+                       width: (String) opsional (default: 'standart'), menggunakan ukuran px, rem, %
+                       title: (String) opsional, card title,
+                       subTitle: (String) opsional
+                       images: [(Array) opsional,
+                           { (Object)
+                               class: (String) opsional,
+                               alt: (String) opsional,
+                               src: (String) opsional, source gambar
+                               styles: (String) opsional, css tambahan untuk gambar
+                               position: (String) ('left', 'top', 'right', 'bottom')
+                           }
+                       ]
+                       buttons:[ (Array) opsional,
+                           {
+                               id: (String)
+                               type: (String) ('link'| 'button') wajib
+                               extra: (String) extra attribut untuk button, opsional
+                               link: (String) link tujuan untuk link, wajib untuk type link
+                               class: (String) class tambahan untuk button, opsional
+                               text: (String) text untuk button
+                               data: (String) untuk attribute data, opsional
+                           }
+                       ],
+                       links:[ (Array) opsional,
+                           {
+                               id: (String)
+                               extra: (String) extra attribut untuk link, opsional
+                               link: (String) link tujuan, wajib
+                               class: (String) class tambahan untuk link, opsional
+                               text: (String) text untuk link
+                           }
+                       ], 
+               
+                   } 
+              ] 
+           },
+           modalFooter:[
+               {
+                  id: (String)
+                  type: (String) ('link'| 'button') wajib
+                  extra: (String) extra attribut untuk button, opsional
+                  link: (String) link tujuan untuk link, wajib untuk type link
+                  class: (String) class tambahan untuk button, opsional
+                  text: (String) text untuk button
+                  data: (String) untuk attribute data, opsional
+               }
+           ]
+
+        }
+}
