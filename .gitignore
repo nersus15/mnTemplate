@@ -1,2 +1,6 @@
+# Jangan dirubah
 ./vendor
 ./public/asset/vendor
+./apps/views
+./apps/controller
+# ################
