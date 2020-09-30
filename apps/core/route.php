@@ -78,6 +78,15 @@ class Route
                         $routes[$url_valid](array_reverse($sisa_url));
                     else
                         $routes[$url_valid]();
+                }elseif(!is_array($routes[$url_valid])){
+                    $route = explode('@', $route[$url_valid]);
+                    $controller_path = PROJECT_PATH . 'apps/controller/' . $route[0];
+                    $controller = new $controller_path;
+                    $method = $route[1];
+                    if(empty($sisa_url))
+                        $sisa_url = [];
+
+                    call_user_func([$controller, $method], $sisa_url);
                 }
                 return true;
             }
