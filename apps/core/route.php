@@ -41,12 +41,20 @@ class Route
         $routes[$r] = $function;
     }
 
+    static function post($route, $function)
+    {
+        global $routes;
+        // sanitasi
+        $r = self::pisahkan_url($route);
+        $routes[$r] = $function;
+    }
     // function pisahkan_url($url, $pc){
 
     // }
-    function need_params($func) {
+    function need_params($func)
+    {
         $reflection = new ReflectionFunction($func);
-    
+
         return $reflection->getNumberOfParameters();
     }
     function run_routes($route)
@@ -78,12 +86,12 @@ class Route
                         $routes[$url_valid](array_reverse($sisa_url));
                     else
                         $routes[$url_valid]();
-                }elseif(!is_array($routes[$url_valid])){
+                } elseif (!is_array($routes[$url_valid])) {
                     $route = explode('@', $route[$url_valid]);
                     $controller_path = PROJECT_PATH . 'apps/controller/' . $route[0];
                     $controller = new $controller_path;
                     $method = $route[1];
-                    if(empty($sisa_url))
+                    if (empty($sisa_url))
                         $sisa_url = [];
 
                     call_user_func([$controller, $method], $sisa_url);
