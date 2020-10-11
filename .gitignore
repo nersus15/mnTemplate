@@ -3,4 +3,5 @@
 ./public/asset/vendor
 ./apps/views
 ./apps/controller
+.history
 # ################
