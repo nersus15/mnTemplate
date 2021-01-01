@@ -11,7 +11,6 @@ class apps extends Route
         $isrout = parent::__construct(str_replace($protocol. '/' . APP_NAME . '/', '', $this->get_link()));
         if (!$isrout) {
             $url = $this->parseURL();
-            //cek apakah ada file kontroller dengan nama sesuai di url
             if (!empty($url)) {
                 if (count($url) > 1 && file_exists(APP_PATH . 'controller/' . $url[0] . '/' . $url[1] . '.php')) {
                     $this->controller_path = APP_PATH . 'controller/' . $url[0] . '/' . $url[1] . '.php';
@@ -29,11 +28,11 @@ class apps extends Route
                     } elseif (count($url) == 1)
                         unset($url[0]);
                 } else {
-                    response(['message' => 'Halaman yang anda tuju tidak ditemukan'], 404, 'error');
+                    response(['message' => 'Halaman yang anda tuju tidak ditemukan', 'path' => $this->controller . '/' . $this->method], 404, 'error');
                 }
             } else {
                 if (!file_exists(APP_PATH . 'controller/' . $this->controller . '.php')) {
-                    response(['message' => 'Halaman yang anda tuju tidak ditemukan'], 404, 'error');
+                    response(['message' => 'Halaman yang anda tuju tidak ditemukan', 'path' => $this->controller . '/' . $this->method], 404, 'error');
                 } else {
                     $this->controller_path = APP_PATH . 'controller/' . $this->controller . '.php';
                 }
@@ -60,8 +59,6 @@ class apps extends Route
     {
         $url = $this->get_link();
         $url = str_replace(BASEURL, '', $url);
-
-        // var_dump($url);die;
         return empty($url) ? $url : explode('/', $url);
     }
 
