@@ -3,19 +3,15 @@ class contoh extends controller
 {
     function __construct()
     {
-        // $auth = $this->helper('authentication');
-        if (isLogin())
-            redirect(BASEURL);
     }
     function index()
     {
         $data = array(
-            'page_title' => 'My Password | Login',
-            'extra_css' => array(
-                ['file' => '', 'position' => 'head']
-            )
+            'resource' => array('main', 'dore'),
+            'content' => array('hello'),
+            'pageName' => 'Hallo, Selamat Datang'
         );
-        $this->view('user/header/login', $data);
-        $this->view('user/main/login', $data);
+        $this->addViews('template/admin_dore', $data);
+        $this->render();
     }
 }

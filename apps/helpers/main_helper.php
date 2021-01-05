@@ -8,6 +8,12 @@ function response($message = '', $code = 200, $type = 'succes')
     die;
 }
 
+function core($class = 'controller'){
+    include_once APP_PATH . 'core/' . $class . '.php';
+    $instance = new $class;
+    return $instance;
+}
+
 function redirect($url){
     header('Location: ' . $url);
 }

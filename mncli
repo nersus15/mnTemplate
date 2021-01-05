@@ -18,9 +18,6 @@ function cek_aksi(){
   fi
 }
 
-function import_asset_vendor(){
-
-}
 function help_log(){
   [[ -z $2 ]] || echo " $1 $2 not found"
   echo -e "Usage: \n $cli_name [options] argument ...\n"
