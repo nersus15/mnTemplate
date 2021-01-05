@@ -1,10 +1,14 @@
 <?php
     $routes = [];
     $true_url = '';
+    // contoh penggunaan route, route bisa dimatikan di config
     Route::get('admin/home/:ad', function ($params) {
-        var_dump($params);
-    });
-
-    Route::get('', function () {
-        var_dump("ok");
+        $controller =& core();
+        $data = array(
+            'resource' => array('main', 'dore'),
+            'content' => array('hello'),
+            'pageName' => 'Hallo, Selamat Datang'
+        );
+        $controller->addViews('template/admin_dore', $data);
+        $controller->render();
     });
