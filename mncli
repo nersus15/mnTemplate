@@ -33,6 +33,7 @@ function help_log(){
       -i, --import              import from resource server\n"
   echo -e " actions:\n
       model                     create model file\n
+      update                    update project from git (git fetch)\n
       helper                    create helper file\n 
       controller                create controller file\n
       assets                    clone assets from server\n
@@ -40,6 +41,7 @@ function help_log(){
   exit 0
 }
 while test $# -gt 0; do
+  
   case "$1" in
     -h|--help)
         help_log
@@ -54,7 +56,12 @@ while test $# -gt 0; do
       fi
       shift
       ;;
-    --create*)
+    --update | -u)
+        echo "updating project from origin repo ......"
+        git pull apps master
+      shift
+      ;;
+       --create*)
       export ACTION=`echo $1 | sed -e 's/^[^=]*=//g'`
       shift
       ;;
