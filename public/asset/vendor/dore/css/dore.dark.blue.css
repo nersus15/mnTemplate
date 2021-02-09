@@ -4239,7 +4239,8 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
       background: #0d385c; }
   .landing-page .landing-page-nav {
     z-index: 5 !important;
-    transition: top 0.5s, background 0.5s, box-shadow 0.2s, opacity 0.2s, transform 0.5s !important;
+    transition: top 0.5s, background 0.5s, box-shadow 0.2s, opacity 0.2s,
+ transform 0.5s !important;
     top: 0;
     position: fixed;
     width: 100%;

@@ -4239,8 +4239,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
       background: #580714; }
   .landing-page .landing-page-nav {
     z-index: 5 !important;
-    transition: top 0.5s, background 0.5s, box-shadow 0.2s, opacity 0.2s,
- transform 0.5s !important;
+    transition: top 0.5s, background 0.5s, box-shadow 0.2s, opacity 0.2s, transform 0.5s !important;
     top: 0;
     position: fixed;
     width: 100%;
@@ -4395,7 +4394,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
         .landing-page .section.home {
           background-position-y: -100px;
           height: 1340px; } }
-    /* .landing-page .section.subpage {
+    .landing-page .section.subpage {
       background: url("../img/landing-page/sub-background-red.png");
       height: 690px;
       background-position-y: -350px;
@@ -4429,7 +4428,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
       background: url("../img/landing-page/footer-background-red.png");
       background-color: white;
       background-repeat: no-repeat;
-      padding-bottom: 0; } */
+      padding-bottom: 0; }
   .landing-page .section.background {
     background: white;
     position: relative;
@@ -4439,7 +4438,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
       .landing-page .section.background {
         padding-top: 60px;
         padding-bottom: 60px; } }
-    /* .landing-page .section.background::before {
+    .landing-page .section.background::before {
       content: " ";
       width: 100%;
       height: 70px;
@@ -4456,7 +4455,7 @@ a.ck.ck-button.ck-on:not(.ck-disabled):hover {
       bottom: -70px;
       background: url("../img/landing-page/white-background-bottom.png");
       background-size: cover;
-      background-position: center; } */
+      background-position: center; }
     .landing-page .section.background.background-no-bottom::after {
       content: "";
       background: initial;

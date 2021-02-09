@@ -24,12 +24,16 @@ uihelper = function () {
             return _generatedModal;
     }
     this.instance = {
-        validator: {}
+        validator: {},
+        dropzone: {}
     };
 
 
     this.getInstance = function () {
         return this.instance;
+    }
+    this.setInstance = function(ins, key, val){
+        this.instance[ins][key] = val;
     }
     this.tambahkanBody = function (type, opt) {
         var bodyEl = '';
@@ -69,7 +73,7 @@ uihelper = function () {
                 buttons.forEach(el => {
                     var id = !el.id ? "" : el.id;
                     var data = el.data ? el.data : "";
-                    buttonsEl += '<button style="margin: 0 5px"' + data + ' type = "' + el.type + '" id = "' + id + '" class = "' + el.class + '">' + el.text + '</button>';
+                    buttonsEl += '<button style="margin: 0 5px; '+ el.style +'"' + data + ' type = "' + el.type + '" id = "' + id + '" class = "' + el.class + '">' + el.text + '</button>';
                 });
             }
             bodyEl +=
@@ -389,6 +393,7 @@ uihelper = function () {
         var body = "";
         var foot = "";
         var stored = null;
+        opt.clickToClose = opt.clickToClose == 'undefined' ? true : opt.clickToClose;
         var kembalian = null;
         if (!opt.type)
             opt.type = "nonForm";
@@ -400,7 +405,6 @@ uihelper = function () {
             alert("Opt harus di isi!");
             return;
         }
-
         if (!opt.modalTitle)
             opt.modalTitle = "";
 
@@ -488,9 +492,10 @@ uihelper = function () {
         if (opt.tulis)
             $(wrapper).append(modalTemplate);
 
-        if (opt.open)
+        if (opt.open && !opt.clickToClose)
+            $("#" + modalId).modal({ backdrop: 'static', keyboard: false }, 'show');
+        else if (opt.open && opt.clickToClose)
             $("#" + modalId).modal('show');
-
         if (opt.destroy) {
             $("#" + modalId).on('hidden.bs.modal', (e) => {
                 e.preventDefault();
@@ -548,8 +553,21 @@ uihelper = function () {
                 })
             });
         }
+        
+
         $("#" + modalId).on('hidden.bs.modal', opt.saatTutup);
         $("#" + modalId).on('shown.bs.modal', opt.saatBuka);
+        
+        if(opt.modalclick){
+            $("#" + modalId).on('shown.bs.modal', function(){
+                setTimeout(function(){
+                    this.addModalOpen();
+                }, 20)
+            });
+            $("#" + modalId).on('hide.bs.modal', function(){
+                $('.modal').off('click', this.addModalOpen)
+            });
+        }
 
 
 
@@ -559,6 +577,17 @@ uihelper = function () {
             return kembalian;
 
     }
+    this.addModalOpen = function(langsung = false){
+        $('.modal').click(function(e){
+            setTimeout(function(){
+                if (!$('body').hasClass('modal-open'))
+                    $('body').addClass('modal-open');
+            }, 10);
+        });
+
+        if(langsung)
+            $('.modal').trigger('click');
+    };
     this.initDatatable = function (el, opt) {
 
         var table = $(el).DataTable({
@@ -590,8 +619,8 @@ uihelper = function () {
                 }
             },
             drawCallback: function () {
-                if(opt.hapusLength)
-                    $(el+"_length").remove(); 
+                if (opt.hapusLength)
+                    $(el + "_length").remove();
                 $($(".dataTables_wrapper .pagination li:first-of-type"))
                     .find("a")
                     .addClass("prev");
@@ -618,6 +647,26 @@ uihelper = function () {
         $('.c-overlay').hide();
         $('button[type="submit"').prop('disabled', false);
 
+    }
+    $.fn.initDropzone = function (opt) {
+        Dropzone.autoDiscover = false;
+        var id = this.attr('id');
+        if ($().dropzone && !$('#' + id).hasClass("disabled")) {
+            Dropzone.options[id] = {
+                url: opt.url,
+                thumbnailWidth: opt.thumbSize,
+                previewTemplate: '<div class="dz-preview dz-file-preview mb-3"><div class="d-flex flex-row "> <div class="p-0 w-30 position-relative"> <div class="dz-error-mark"><span><i class="simple-icon-exclamation"></i>  </span></div>      <div class="dz-success-mark"><span><i class="simple-icon-check-circle"></i></span></div>      <img data-dz-thumbnail class="img-thumbnail border-0" /> </div> <div class="pl-3 pt-2 pr-2 pb-1 w-70 dz-details position-relative"> <div> <span data-dz-name /> </div> <div class="text-primary text-extra-small" data-dz-size /> </div> <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>        <div class="dz-error-message"><span data-dz-errormessage></span></div>            </div><a href="#" class="remove" data-dz-remove> <i class="simple-icon-trash"></i> </a></div>',
+                init: function(){
+                    if(opt.eventListener != 'undefined'){
+                        opt.eventListener.forEach(ev => {
+                            this.on(ev.event, ev.func);
+                        })
+                    }
+                }
+            }
+            var dropzone = $('#' + id).dropzone();            
+            setInstance('dropzone', id.replaceAll('-', '_'), dropzone);
+        }
     }
     this.showLoading = function () {
         $('body').addClass('show-spinner');
@@ -748,11 +797,13 @@ uihelper = function () {
         var succes = opt.submitSuccess ? opt.submitSuccess : () => { };
         var error = opt.submitError ? opt.submitError : () => { };
         var sebelumSubmit = opt.sebelumSubmit ? opt.sebelumSubmit : () => { };
+        var beforeSerialize = opt.sebelumSerialize ? opt.sebelumSerialize : () => { };
         var rules = opt.rules ? opt.rules : {};
         var options = {
             error: error,
             success: succes,
-            beforeSubmit: sebelumSubmit
+            beforeSubmit: sebelumSubmit,
+            beforeSerialize: beforeSerialize,
         };
 
         if (opt.rules) {
