@@ -70,18 +70,28 @@ class controller
     {
         $this->load->view('errors/' . $type . '/' . $file, $params);
     }
-    function add_cachedJavascript($js, $type = 'file', $data = array())
-    {
-        if (!empty($data)) {
-            foreach ($data as $k => $v) {
-                $this->params['var'][$k] = $v;
+    function add_cachedJavascript($js, $type = 'file', $pos="body:end", $data = array())
+    {        
+        try {
+            if($type == 'file'){
+                ob_start();
+                if (!empty($data))
+                    extract($data);
+
+                include_once ASSETS_PATH . 'js/' . $js . '.js';
             }
+
+            $this->params['extra_js'][] = array(
+                'script' => $type == 'file' ? ob_get_contents() : $js,
+                'type' => 'inline',
+                'pos' => 'body:end'
+            );
+            if($type == 'file')
+                ob_end_clean();
+            
+        } catch (\Throwable $th) {
+           print_r($th);
         }
-        $this->params['extra_js'][] = array(
-            'script' => $type == 'file' ? file_get_contents(STATIC_PATH . 'js/' . $js . '.js') : $js,
-            'type' => 'inline',
-            'pos' => 'body:end'
-        );
     }
     function add_cachedStylesheet($css, $type = 'file', $pos = 'head', $data = array())
     {
@@ -90,11 +100,24 @@ class controller
                 $this->params['var'][$k] = $v;
             }
         }
+        if($type == 'file'){
+            ob_start();
+            if (!empty($data))
+                extract($data);
+            try {
+                include_once ASSETS_PATH . 'css/' . $css . '.css';   
+            } catch (\Throwable $th) {
+                print_r($th);
+            }
+        }
+
         $this->params['extra_css'][] = array(
-            'style' => $type == 'file' ? file_get_contents(STATIC_PATH  . 'css/' . $css . '.css') : $css,
+            'style' => $type == 'file' ? ob_get_contents() : $css,
             'type' => 'inline',
             'pos' => $pos
         );
+        if($type == 'file')
+            ob_end_clean(); 
     }
     function add_stylesheet($css)
     {
