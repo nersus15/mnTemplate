@@ -6,7 +6,7 @@ define('STATIC_PATH', "https://localhost/mnframework/public/");
 define("VENDOR_PATH", "https://cdn.kamscode.tech/");
 define('APP_PATH', str_replace('config', '', __DIR__));
 define('PROJECT_PATH', str_replace('apps/', '', APP_PATH));
-define('ASSETS_PATH', str_replace('apps/config', '', APP_PATH) . 'public/asset/');
+define('ASSETS_PATH', str_replace('apps', '', APP_PATH) . 'public/asset/');
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
