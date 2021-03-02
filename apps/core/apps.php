@@ -8,8 +8,11 @@ class apps extends Route
     public function __construct()
     {
         $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-        $isrout = parent::__construct(str_replace($protocol. '/' . APP_NAME . '/', '', $this->get_link()));
-        
+        if(ENV == 'DEV')
+            $isrout = parent::__construct(str_replace($protocol. '/' . APP_NAME . '/', '', $this->get_link()));
+        elseif (ENV == 'PROD')
+            $isrout = parent::__construct(str_replace($protocol. '/', '', $this->get_link()));
+            
         if (!$isrout) {
             $url = $this->parseURL();
             if (!empty($url)) {
