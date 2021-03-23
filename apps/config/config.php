@@ -1,8 +1,9 @@
 <?php
+$secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on';
 define("APP_NAME", 'test');
 // define('PORT', 1024)
-define('BASEURL', 'http://localhost/mnframework/');
-define('STATIC_PATH', "https://localhost/mnframework/public/");
+define('BASEURL', $secure ? 'https://localhost/mnframework/' : 'http://localhost/mnframework/');
+define('STATIC_PATH', $secure ? "https://localhost/mnframework/public/" : 'http://localhost/mnframework/public/');
 define("VENDOR_PATH", "https://cdn.kamscode.tech/");
 define('APP_PATH', str_replace('config', '', __DIR__));
 define('PROJECT_PATH', str_replace('apps/', '', APP_PATH));
@@ -21,3 +22,5 @@ date_default_timezone_set('Asia/Singapore');
 // CONST
 define('MYSQL_TIMESTAMP_FORMAT', 'Y-m-d H:i:s');
 define('MYSQL_DATE_FORMAT', 'Y-m-d');
+
+// 
