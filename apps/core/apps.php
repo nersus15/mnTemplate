@@ -7,10 +7,15 @@ class apps extends Route
     protected $controller_path = '';
     public function __construct()
     {
+
+        if(ENV == 'DEV_ONLINE' && $_SERVER['HTTP_USER_AGENT'] != 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36')
+            response("<p> Situs ini masih dalam proses pengembangan", 200, 'succes', 'html');
+        
+
         $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
         if(ENV == 'DEV')
             $isrout = parent::__construct(str_replace($protocol. '/' . APP_NAME . '/', '', $this->get_link()));
-        elseif (ENV == 'PROD')
+        elseif (in_array(ENV, array('DEV_ONLINE', 'PROD')))
             $isrout = parent::__construct(str_replace($protocol. '/', '', $this->get_link()));
             
         if (!$isrout) {
