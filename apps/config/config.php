@@ -7,7 +7,6 @@ define("APP_NAME", 'mnframework');
 define('DOMAIN_NAME', '');
 define('ENV', 'DEV'); // ["DEV", "PROD", "DEV_ONLINE"]
 define('PORT', 1024);
-define('STATIC_PATH', $secure ? "https://localhost/mnframework/public/" : 'http://localhost/mnframework/public/');
 define("VENDOR_PATH", "https://cdn.kamscode.tech/");
 define('APP_PATH', str_replace('config', '', __DIR__));
 define('PROJECT_PATH', str_replace('apps/', '', APP_PATH));
@@ -37,5 +36,6 @@ if(ENV == 'DEV'){
 }else
     define('BASEURL', $secure ? 'https://'. DOMAIN_NAME .'/' : 'http://'. DOMAIN_NAME .'/');
 
+define('STATIC_PATH', BASEURL . 'public/');
 if(ENV != "DEV" && empty(DOMAIN_NAME))
     die("Anda Mengatur ENV menjadi " . ENV . " tapi tidak memasukkan DOMAIN_NAME di config/cofig.php");
