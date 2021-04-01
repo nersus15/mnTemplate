@@ -48,7 +48,7 @@ function config_item($file = '', $params = null)
         if (is_array($params)) {
             foreach ($params as $value)
                 $index = $index . "['" . $value . "']";
-        }else
+        } else
             $index = "['$params']";
     }
     if (file_exists(APP_PATH . 'config/' . $file . '.php')) {
@@ -58,7 +58,6 @@ function config_item($file = '', $params = null)
             $str = '$configItem = $config' . $index . ';';
             eval($str);
             return $configItem;
-
         } else
             return $config;
     } else
@@ -153,27 +152,27 @@ function base_url($path = null)
 
 function config_sidebar($sidebar = null, int $activeMenu = 0, $subMenu = 0)
 {
-    if(is_null($sidebar))
+    if (is_null($sidebar))
         return config_item('component');
 
     $config = config_item('component', array('component', 'sidebar', 'dore', $sidebar));
-    
+
     $config['menus'][$activeMenu]['active'] = true;
     $induk = $config['menus'][$activeMenu]['link'];
-    if($induk[0] != '#')
+    if ($induk[0] != '#')
         return $config;
-    else{
+    else {
         $sub = null;
         $induk = str_replace('#', '', $induk);
         foreach ($config['subMenus'] as $key => $value) {
-            if($value['induk'] == $induk){
+            if ($value['induk'] == $induk) {
                 $sub = $key;
                 continue;
             }
         }
-        if(!is_null($sub))
+        if (!is_null($sub))
             $config['subMenus'][$sub]['menus'][$subMenu]['active'] = true;
-        
+
         return $config;
     }
 }
@@ -199,10 +198,17 @@ function add_resource_group($name, $type = null, $pos = null)
         foreach ($configitem[$name] as $k => $v) {
             foreach ($v as $resource) {
                 $resource['src'] = $resource['src'];
-                if ($k == 'js')
-                    $resourceText .= $resource['pos'] == $pos ? "<script src='{$resource['src']}'></script>" : null;
-                elseif ($k == 'css')
-                    $resourceText .= $resource['pos'] == $pos ? "<link rel='stylesheet' href='{$resource['src']}'></link>" : null;
+                if ($k == 'js') {
+                    if (isset($resource['type']) && $resource['type'] == 'inline')
+                        $resourceText .= $resource['pos'] == $pos ? "<script>" . $resource['src'] . "</script>" : null;
+                    else
+                        $resourceText .= $resource['pos'] == $pos ? "<script src='{$resource['src']}'></script>" : null;
+                } elseif ($k == 'css') {
+                    if (isset($resource['type']) && $resource['type'] == 'inline')
+                        $resourceText .= $resource['pos'] == $pos ? "<style>" . $resource['src'] . "</style>" : null;
+                    else
+                        $resourceText .= $resource['pos'] == $pos ? "<link rel='stylesheet' href='{$resource['src']}'></link>" : null;
+                }
             }
         }
     } else {
@@ -211,12 +217,15 @@ function add_resource_group($name, $type = null, $pos = null)
         foreach ($configitem[$name][$type] as $k => $v) {
             $v['src'] = $v['src'];
             if ($type == 'js') {
-                if ($v['pos'] == $pos)
-                    $resourceText .= "<script src='{$v['src']}'></script>";
-            }
-            if ($type == 'css') {
-                if ($v['pos'] == $pos)
-                    $resourceText .= "<link rel='stylesheet' href='{$v['src']}'></link>";
+                if (isset($resource['type']) && $resource['type'] == 'inline')
+                    $resourceText .= $v['pos'] == $pos ? "<script>" . $v['src'] . "</script>" : null;
+                else
+                    $resourceText .= $v['pos'] == $pos ? "<script src='{$v['src']}'></script>" : null;
+            } elseif ($type == 'css') {
+                if (isset($v['type']) && $v['type'] == 'inline')
+                    $resourceText .= $v['pos'] == $pos ? "<style>" . $v['src'] . "</style>" : null;
+                else
+                    $resourceText .= $v['pos'] == $pos ? "<link rel='stylesheet' href='{$v['src']}'></link>" : null;
             }
         }
     }

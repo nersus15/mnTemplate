@@ -36,7 +36,7 @@
         }
     }
     if(isset($includeTiny) && $includeTiny)
-        echo '<script src="https://cdn.tiny.cloud/1/g3ehl5o7qpuuksdy89uuxe73fv2lmbk7d7374gxeeuts8z8w/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>';
+        echo '<script src="'. TINY_URL .'" referrerpolicy="origin"></script>';
     
 
     if (isset($extra_css) && !empty($extra_css)) {
@@ -54,7 +54,7 @@
     </script>
 </head>
 
-<body id="app-container" class="menu-default">
+<body id="app-container" class="<?php echo DEF_THEME ? 'menu-default' : null ?>">
     <?php if (isset($loadingAnim) && $loadingAnim) : ?>
         <div class="c-overlay">
             <div class="c-overlay-text">Loading</div>
