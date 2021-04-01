@@ -67,5 +67,4 @@ $config['themes']['form']['css'] = array(
 
 $config['themes']['form']['js'] = array(
     array('pos' => 'head', 'src' => VENDOR_PATH . 'select2/dist/js/select2.min.js'),
-
 );
