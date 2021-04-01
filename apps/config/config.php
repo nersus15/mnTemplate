@@ -1,6 +1,7 @@
 <?php
 $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on';
-define("APP_NAME", 'test');
+// APP_NAME harus sama dengan nama folder project (karena itu akan berpengaruh pada routing), misal nama project adalah penjualanEs maka APP_NAME harus diganti dari template ke penjualanES
+define("APP_NAME", 'template');
 // define('PORT', 1024)
 define('BASEURL', $secure ? 'https://localhost/mnframework/' : 'http://localhost/mnframework/');
 define('STATIC_PATH', $secure ? "https://localhost/mnframework/public/" : 'http://localhost/mnframework/public/');
