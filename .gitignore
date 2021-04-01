@@ -1,9 +1,10 @@
 # Jangan dirubah
+.gitignore
 .vendor
 .vscode
-public/asset/vendor
-apps/views
-apps/controller
+/public/asset/vendor
+/apps/views
+/apps/controller
 .history
-apps/config
+/apps/config
 # ################
