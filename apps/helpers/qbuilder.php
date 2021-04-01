@@ -33,6 +33,7 @@ class qbuilder
         } else {
             $this->query = $q1 . '(' . $q2 . ') ' . $talias;
         }
+        return $this;
     }
     function group_by($kolom)
     {
@@ -45,6 +46,8 @@ class qbuilder
         } else {
             $this->query .= ' GROUP BY ' . $kolom;
         }
+        return $this;
+
     }
 
     /**
@@ -62,6 +65,8 @@ class qbuilder
         } else {
             $this->query .= ' ORDER BY ' . $kolom . ' ' . $tipe;
         }
+        return $this;
+
     }
 
     function get_query()
@@ -98,6 +103,8 @@ class qbuilder
             // if($this->countjoin >0)
             $this->query .= ' ' . $tipe . " JOIN " . $tabel . " ON " . $on;
         }
+        return $this;
+
     }
 
     function select($selection)
@@ -114,6 +121,7 @@ class qbuilder
 
             $this->countselect++;
         }
+        return $this;
     }
     function insert($input, $table)
     {
@@ -143,6 +151,7 @@ class qbuilder
         // var_dump($query);die;
         $this->db->query($query);
         $this->db->execute();
+        return $this;
     }
 
     function insert_batch($inputs, $table)
@@ -180,6 +189,7 @@ class qbuilder
         $this->db->query($query);
         $this->db->execute();
         // var_dump($query);
+        return $this;
     }
     function from($table)
     {
@@ -190,6 +200,7 @@ class qbuilder
         } else {
             $this->query .= " FROM " . $table;
         }
+        return $this;
     }
     function where($kolom, $nilai, $operator = "=")
     {
@@ -216,6 +227,7 @@ class qbuilder
             );
             $this->countWhere++;
         }
+        return $this;
     }
     function or_where($kolom, $nilai, $operator = "=")
     {
@@ -236,6 +248,7 @@ class qbuilder
             );
             $this->countWhere++;
         }
+        return $this;
     }
     function row()
     {
@@ -252,6 +265,8 @@ class qbuilder
             $this->reset();
             return $this->db->single();
         }
+        return $this;
+
     }
     function results()
     {
@@ -268,6 +283,7 @@ class qbuilder
             $this->reset();
             return $this->db->resultSet();
         }
+        
     }
     function result_object()
     {
@@ -332,7 +348,7 @@ class qbuilder
     function get()
     {
         $this->reset();
-        return $this->hasil;
+        return $this;
     }
     function reset()
     {
