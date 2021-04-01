@@ -388,7 +388,18 @@ uihelper = function () {
         if (!khusus.includes(el.type))
             return '<div class = "form-group">  <label class= "control-label' + el.labelClass + '" for = "' + id + '">' + el.label + '</label> <input name = "' + el.name + '" type = "' + el.type + '" id = "' + id + '" value = "' + el.value + '" class = "form-control ' + el.class + '"' + el.attr + ' placeholder = "' + placeholder + '"> </div>';
     }
-
+    this.notifikasi = function(pesan, opsi){
+        this.generateModal('notif', 'body', {
+            type: 'custom',
+            open: true,
+            destroy: true,
+            saatBuka: opsi.saatBuka == undefined ? function(){} : opsi.saatBuka, 
+            saatTutup: opsi.saatBuka == undefined ? function(){} : opsi.saatTutup, 
+            modalBody:{
+                customBody: '<h4>' + pesan + '</h4>'
+            }
+        });
+    }
     this.generateModal = function (modalId, wrapper, opt) {
         var body = "";
         var foot = "";
