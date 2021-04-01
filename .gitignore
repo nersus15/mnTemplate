@@ -1,7 +1,10 @@
 # Jangan dirubah
-./vendor
-./public/asset/vendor
-./apps/views
-./apps/controller
+.gitignore
+.vendor
+.vscode
+/public/asset/vendor
+/apps/views
+/apps/controller
 .history
+/apps/config
 # ################

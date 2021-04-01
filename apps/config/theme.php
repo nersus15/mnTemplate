@@ -1,4 +1,3 @@
-<?php
 
 // Resource group "main"
 $config['themes']['main']['js'] = array(
@@ -16,12 +15,19 @@ $config['themes']['main']['js'] = array(
 );
 
 $config['themes']['main']['css'] = array(
-    array('pos' => 'head', 'src' => VENDOR_PATH . 'bootstrap/css/bootstrap.min.css'),
-    // array('pos' => 'head', 'src' => VENDOR_PATH . 'fontawesome/css/all.min.css'),
-    // array('pos' => 'head', 'src' => VENDOR_PATH . 'dore/icon/iconsmind/style.css'),
-    // array('pos' => 'head', 'src' => VENDOR_PATH . 'dore/icon/simple-line-icons/css/simple-line-icons.css')
+    array('pos' => 'head', 'src' => STATIC_PATH . 'asset/vendor/bootstrap/css/bootstrap.min.css'),
+    array('pos' => 'head', 'src' => STATIC_PATH . 'asset/vendor/fontawesome/css/all.min.css'),
+    array('pos' => 'head', 'src' => STATIC_PATH . 'asset/vendor/dore/icon/iconsmind/style.css'),
+    array('pos' => 'head', 'src' => STATIC_PATH . 'asset/vendor/dore/icon/simple-line-icons/css/simple-line-icons.css')
 );
 
+// ICON ONLY
+$config['themes']['icons']['css'] = array(
+    array('pos' => 'head', 'src' => STATIC_PATH . 'asset/vendor/bootstrap/css/bootstrap.min.css'),
+    array('pos' => 'head', 'src' => STATIC_PATH . 'asset/vendor/fontawesome/css/all.min.css'),
+    array('pos' => 'head', 'src' => STATIC_PATH . 'asset/vendor/dore/icon/iconsmind/style.css'),
+    array('pos' => 'head', 'src' => STATIC_PATH . 'asset/vendor/dore/icon/simple-line-icons/css/simple-line-icons.css')
+);
 
 // Dore themes
 $config['themes']['dore']['css'] = array(
@@ -36,7 +42,6 @@ $config['themes']['dore']['js'] = array(
 // Landing Page
 
 $config['themes']['landing']['css'] = array(
-    array('pos' => 'head', 'src' => STATIC_PATH . 'icon/simple-line-icons/css/simple-line-icons.css'),
     array('pos' => 'head', 'src' => VENDOR_PATH . 'bootstrap/css/bootstrap-stars.css'),
     array('pos' => 'head', 'src' => VENDOR_PATH . 'bootstrap/css/bootstrap.min.css'),
     array('pos' => 'head', 'src' => VENDOR_PATH . 'owl/css/owl-carousel.min.css'),
@@ -53,4 +58,13 @@ $config['themes']['landing']['js'] = array(
     array('pos' => 'body:end', 'src' => VENDOR_PATH . 'dore/js/landing.script.js'),
     array('pos' => 'head', 'src' => VENDOR_PATH . 'dore/js/script.js'),
 
+);
+
+// FORM
+$config['themes']['form']['css'] = array(
+    array('pos' => 'head', 'src' => VENDOR_PATH . 'select2/dist/css/select2.css'),
+);
+
+$config['themes']['form']['js'] = array(
+    array('pos' => 'head', 'src' => VENDOR_PATH . 'select2/dist/js/select2.min.js'),
 );
