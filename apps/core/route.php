@@ -80,13 +80,15 @@ class Route
                 $url_valid = join('/', array_reverse($url_reverse));
             } else
                 $url_valid = join('/', $url);
-
             if (isset($routes[$url_valid . ':' . $v['http_method']]) && httpmethod($v['http_method'])) {
                 if (is_callable($routes[$url_valid . ':' . $v['http_method']])) {
                     if ($this->need_params($routes[$url_valid . ':' . $v['http_method']]) > 0)
                         $routes[$url_valid . ':' . $v['http_method']](array_reverse($sisa_url));
                     else
-                        $routes[$url_valid]();
+                        $routes[$url_valid . ':' . $v['http_method']]();
+
+                    return true;
+
                 } elseif (!is_array($routes[$url_valid . ':' . $v['http_method']])) {
                     $route = explode('@', $routes[$url_valid . ':' . $v['http_method']]);
                     $controller_path = APP_PATH . 'controller/' . strtolower($route[0]) . '.php';
@@ -113,8 +115,8 @@ class Route
                         response(['message' => 'Tidak ada method dengan nama "' . $route[1] . '" pada controller ', 'path' => $registered_controller_path]);
                     if (empty($sisa_url))
                         $sisa_url = [];
-
                     call_user_func([$controller, $method], $sisa_url);
+                    return TRUE;
                 }
                 $ketemu = TRUE;
             }

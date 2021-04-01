@@ -228,9 +228,10 @@ class qbuilder
                 )
             );
         } else {
-            $this->query .= " OR " . $kolom . " " . $operator . " :" . $kolom . $this->countWhere;
+            $key_binding = 'VAR' . random(1) . random(1, 'int');
+            $this->query .= " OR " . $kolom . " " . $operator . " :" . $key_binding;
             $this->bind_scirpt[] = array(
-                "key" => $kolom . $this->countWhere,
+                "key" => $key_binding,
                 "value" => $nilai,
             );
             $this->countWhere++;
