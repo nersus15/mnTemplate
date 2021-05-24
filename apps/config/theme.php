@@ -1,4 +1,5 @@
 
+<?php
 // Resource group "main"
 $config['themes']['main']['js'] = array(
     array('pos' => 'head', 'src' => VENDOR_PATH . 'jquery/jquery-3.3.1.min.js'),
