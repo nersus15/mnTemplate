@@ -61,7 +61,7 @@ class apps extends Route
                 $this->parameter = array_values($url);
             }
             //menjalankan controller, method, daan paramter
-            call_user_func([$controller, $this->method], $this->parameter);
+            call_user_func_array([$controller, $this->method], $this->parameter);
         }
     }
     public function parseURL()

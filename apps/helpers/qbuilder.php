@@ -19,19 +19,17 @@ class qbuilder
         $this->db = new database;
     }
 
-    function subquery($q1, $q2, $talias)
+    function subquery()
     {
 
         if ($this->new) {
             $this->qeueu['subquery'][] = array(
                 'temp' => array(
-                    'q1' => $q1,
-                    'q2' => $q2,
-                    'talias' => $talias
+                   
                 )
             );
         } else {
-            $this->query = $q1 . '(' . $q2 . ') ' . $talias;
+            return $this->query;
         }
     }
     function group_by($kolom)
@@ -45,6 +43,7 @@ class qbuilder
         } else {
             $this->query .= ' GROUP BY ' . $kolom;
         }
+        return $this;
     }
 
     /**
@@ -62,6 +61,8 @@ class qbuilder
         } else {
             $this->query .= ' ORDER BY ' . $kolom . ' ' . $tipe;
         }
+        return $this;
+
     }
 
     function get_query()
@@ -98,6 +99,7 @@ class qbuilder
             // if($this->countjoin >0)
             $this->query .= ' ' . $tipe . " JOIN " . $tabel . " ON " . $on;
         }
+        return $this;
     }
 
     function select($selection)
@@ -114,6 +116,8 @@ class qbuilder
 
             $this->countselect++;
         }
+        return $this;
+
     }
     function insert($input, $table)
     {
@@ -190,6 +194,8 @@ class qbuilder
         } else {
             $this->query .= " FROM " . $table;
         }
+        return $this;
+
     }
     function where($kolom, $nilai, $operator = "=")
     {
@@ -216,6 +222,8 @@ class qbuilder
             );
             $this->countWhere++;
         }
+        return $this;
+
     }
     function or_where($kolom, $nilai, $operator = "=")
     {
@@ -236,6 +244,8 @@ class qbuilder
             );
             $this->countWhere++;
         }
+        return $this;
+
     }
     function row()
     {
@@ -309,7 +319,7 @@ class qbuilder
             $this->order_by($t['kolom'], $t['tipe']);
 
         if ($f == 'subquery')
-            $this->subquery($t['q1'], $t['q2'], $t['talias']);
+            $this->subquery();
 
         unset($this->qeueu[$f][$index]);
     }

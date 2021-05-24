@@ -56,6 +56,10 @@ function loginTryCount(){
     
 }
 
+function verify_token($token){
+    
+}
+
 function token_register_checker($token)
 {
     if (empty($token))

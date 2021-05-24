@@ -17,7 +17,8 @@ define('DB_NAME', 'test');
 define('controller_def', 'contoh');
 define('method_def', 'index');
 define('DEF_THEME', TRUE);
-
+define("JWT_AUTH", FALSE);
+define("SYNC_DATAUSER", FALSE);
 define('IS_ROUTE', true);
 define('DEPENDENCIES_PATH', str_replace('apps/', '', APP_PATH) . 'vendor/');
 date_default_timezone_set('Asia/Singapore');
