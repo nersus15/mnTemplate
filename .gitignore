@@ -1,6 +1,6 @@
 # Jangan dirubah
 .gitignore
-vendor
+# /vendor
 .vscode
 /public/asset/vendor
 /apps/views
