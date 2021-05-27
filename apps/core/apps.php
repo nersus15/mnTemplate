@@ -60,8 +60,33 @@ class apps extends Route
 
                 $this->parameter = array_values($url);
             }
-            //menjalankan controller, method, daan paramter
-            call_user_func_array([$controller, $this->method], $this->parameter);
+
+            // cek tipe akses pada method(jika ada)  dan jalankan method 
+            $methods = get_class_methods($controller);
+            
+            $specific_method = [];
+            $normal_method = [];
+            
+            foreach($methods as $m ){
+            $part = explode("_", $m);
+            $hasil = search_part($part,["post", "get"]);
+            if($hasil[0])
+                $specific_method[] = ["tipe" => $hasil[2], "method_name" => $m];
+            
+            else
+                $normal_method[] = $m;
+            }
+            
+            if(in_array($this->method, $normal_method))
+                call_user_func_array([$controller, $this->method], $this->parameter);
+            else{
+                foreach($specific_method as $m){
+                    if($m['method_name'] == $this->method . "_" . $m['tipe'] && httpmethod($m['tipe'])){
+                        call_user_func_array([$controller, $this->method . "_" . $m['tipe']], $this->parameter); 
+                    }
+                }
+                response("function " . $this->method . "_" . get_httpmethod() . " tidak ditemukan pada class" . $this->controller_path);
+            }
         }
     }
     public function parseURL()

@@ -120,6 +120,9 @@ function httpmethod($method = 'POST')
     return $_SERVER['REQUEST_METHOD'] == $method;
 }
 
+function get_httpmethod(){
+    return $_SERVER['REQUEST_METHOD'];
+}
 function sessiondata($index = 'login', $kolom = null)
 {
 
@@ -244,3 +247,43 @@ function rupiah_format($angka)
     $hasil_rupiah = "Rp. " . number_format($angka, 2, ',', '.');
     return $hasil_rupiah;
 }
+
+function search_part($arr, $search, $callback = null){
+    $data = [false, -1, ""];
+    
+    foreach($arr as $key => $value){
+        if(is_array($search)){
+          if(in_array($value, $search))
+            $data = [true, $key, $value];
+        }else{
+          if($value == $search)
+            $data = [true, $key, $value];
+        }
+     }
+     
+    if(!empty($callback) && is_callable($callback))
+        $callback();
+     else
+       return $data;
+    
+  }
+  
+  function search_part_bool($arr, $search, $callback = null){
+    $data = -1;
+    
+    foreach($arr as $key => $value){
+      if(is_array($search)){
+          if(in_array($value, $search))
+            $data = $key;
+        }else{
+          if($value == $search)
+            $data = $key;
+        }
+     }
+     
+     if(!empty($callback) && is_callable($callback))
+        $callback();
+     else
+       return $data != -1;
+    
+  }
