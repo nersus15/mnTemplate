@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <form action="" id="wizard">
+    <form action="<?= $action ?>" id="<?= $id ?>" method="POST">
 
         <h2></h2>
         <section>
@@ -214,5 +214,6 @@
                 </div>
             </div>
         </section>
+        <button class="btn btn-primary" type="submit">KIRIM</button>
     </form>
 </div>

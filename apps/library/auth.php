@@ -3,7 +3,7 @@
     class auth_lib {
         private $db, $tabel_profile, $tabel_user, $pakai_login_email;
     
-        function __construct($tabel_user, $tabel_profile = null, $pakai_login_email = false)
+        function _init_($tabel_user, $tabel_profile = null, $pakai_login_email = false)
         {            
             $this->db = new qbuilder();
             $this->tabel_profile = $tabel_profile;

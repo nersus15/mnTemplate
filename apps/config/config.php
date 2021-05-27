@@ -6,7 +6,7 @@ define("APP_NAME", 'mnframework');
 // Aktifkan DOMAIN_NAME dan masukkan nama domain ketika ENV di set ke PROD atau DEV_ONLINE, jika tidak maka akan terjadi error
 define('DOMAIN_NAME', '');
 define('ENV', 'DEV'); // ["DEV", "PROD", "DEV_ONLINE"]
-define('PORT', 1024);
+define('PORT', null);
 define("VENDOR_PATH", "https://cdn.kamscode.tech/");
 define('APP_PATH', str_replace('config', '', __DIR__));
 define('PROJECT_PATH', str_replace('apps/', '', APP_PATH));
@@ -18,12 +18,13 @@ define('DB_NAME', 'app.terasinovasi');
 define('controller_def', 'contoh');
 define('method_def', 'index');
 define('DEF_THEME', TRUE);
-define("JWT_AUTH", FALSE);
+define("JWT_AUTH", true);
 define("SYNC_DATAUSER", FALSE);
 define('IS_ROUTE', true);
 define('DEPENDENCIES_PATH', str_replace('apps/', '', APP_PATH) . 'vendor/');
 date_default_timezone_set('Asia/Singapore');
-
+define("DEBUG_MODE", true);
+define("SECURE_FORM", true); // if true, form must create with buat_form() to add token validation
 // CONST
 define('MYSQL_TIMESTAMP_FORMAT', 'Y-m-d H:i:s');
 define('MYSQL_DATE_FORMAT', 'Y-m-d');

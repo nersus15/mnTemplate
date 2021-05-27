@@ -1,38 +1,47 @@
 <?php
-class Token
-{
-    protected $token = array();
-    protected $fs;
+    use Firebase\JWT\JWT;
 
-    function init()
-    {
-       
+    class Token {
+    private $used_token = [];
+    private $jwt;
+        public function __construct() {
+            require_once DEPENDENCIES_PATH . "firebase/php-jwt/src/JWT.php";
+            require_once DEPENDENCIES_PATH . "firebase/php-jwt/src/SignatureInvalidException.php";
+            require_once DEPENDENCIES_PATH . "firebase/php-jwt/src/BeforeValidException.php";
+            require_once DEPENDENCIES_PATH . "firebase/php-jwt/src/ExpiredException.php";
+            $this->jwt = new JWT;
+        }
+        function encode($key, $data, $alg = "HS256"){
+            $tipe = gettype($data);
+            if($tipe == 'array')
+                $data['data_payload_type'] = $tipe;
+            else    
+                $data->data_payload_type = $tipe;
+                
+            $token = $this->jwt->encode($data, $key, $alg);
+            return $token;
+        }
+
+        function decode($token, $key, $allowed_alg = ["HS256"]){
+            $data = null;
+            try {
+                $data = $this->jwt->decode($token, $key, $allowed_alg);
+                if(isset($data->data_payload_type)){
+                    switch($data->data_payload_type){
+                        case "array":
+                            $data = (array) $data;
+                            unset($data['data_payload_type']);
+                        break;
+                        case "object":
+                            $data = (object) $data;
+                            unset($data->data_payload_type);
+                        break;
+                    }
+                }
+            } catch (\Throwable $th) {
+                return false;
+            }
+
+            return $data;            
+        }
     }
-    function generate($value)
-    {
-        $id = uniqid();
-        $value = array('aktif' => true, 'value' => $value);
-        // $this->fs->add($id, $value);
-        var_dump($this->fs->read());
-
-        return $id;
-    }
-
-    function validate($token)
-    {
-        if (!isset($this->token[$token]))
-            return array("message" => "error! Token tidak valid", "status" => false);
-
-        if (!$this->token[$token]['aktif'])
-            return array("message" => "error! Token sudah digunakan", "status" => false);
-
-        $this->token[$token]['aktif'] = false;
-        return true;
-    }
-    function reset($token)
-    {
-        $temp = $this->token[$token]['value'];
-        unset($this->token[$token]);
-        return $this->generate($temp);
-    }
-}

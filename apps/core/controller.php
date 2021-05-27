@@ -5,6 +5,7 @@ class controller
     private $instance;
     private $views = [];
     private $params = ['params' => []];
+    private $region = [];
 
     public function __construct()
     {
@@ -20,10 +21,12 @@ class controller
             response(['message' => 'error', 'err' => print_r($th, true)], 404);
         }
     }
-    public function model($model)
+    public function model($model, $prefixs = null)
     {
         require_once APP_PATH . 'models/' . $model . '.php';
-        return new $model;
+        $class = $lib . $prefixs;
+        $model = new $class();
+        $this->{$lib} = $model;
     }
     public function helper($helper)
     {
@@ -34,8 +37,13 @@ class controller
     {
         require_once APP_PATH . 'library/' . $lib . '.php';
         $class = $lib . '_lib';
-        return new $class;
+        $library = new $class();
+        $this->{$lib} = $library;
     }
+    function add_region($html){
+        $this->region[] = $html;
+    }
+
     public function getinstance()
     {
         return $this->instance;
@@ -134,7 +142,23 @@ class controller
         foreach ($this->views as $view) {
             $this->view($view, $this->params);
         }
+        if(empty($this->views)){
+            $this->view('header/main', $this->params);
+        }
+        foreach($this->region as $view){
+            echo $view;
+        }
+        if(empty($this->views)){
+            $this->view('footer/main', $this->params);
+        }
         $this->views = [];
         $this->params = [];
+
+    }
+    function add_params($key = null, $value = null, array $arr = array()){
+        if(!empty($key))
+            $this->params[$key] = $value;
+        if(!empty($arr))
+            $this->params += $arr;
     }
 }

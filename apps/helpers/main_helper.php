@@ -117,6 +117,7 @@ function waktu($waktu = null, $format = MYSQL_TIMESTAMP_FORMAT)
 }
 function httpmethod($method = 'POST')
 {
+    $method = strtoupper($method);
     return $_SERVER['REQUEST_METHOD'] == $method;
 }
 
@@ -133,6 +134,14 @@ function sessiondata($index = 'login', $kolom = null)
 function set_userdata($key, $value)
 {
     $_SESSION['user_data'][$key] = $value;
+}
+function add_userdatavalue($key, $value){
+    if (isset($_SESSION['user_data'][$key])){
+        if(is_array($_SESSION['user_data'][$key]))
+            $_SESSION['user_data'][$key][] = $value;
+    }else{
+        $_SESSION['user_data'][$key] = array($value);
+    }
 }
 
 function unset_userdata($key)
