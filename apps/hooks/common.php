@@ -30,7 +30,7 @@ class commonHook
                 $wrapped_data = get_userdata("_wrapped_data_");
                 $form_data = $wrapped_data[$post['_token_']];
                 $jwt = new Token;
-                if(!$jwt->decode($form_data . 'ada', '_formtoken_'))
+                if(empty($form_data) || !$jwt->decode($form_data, '_formtoken_'))
                     response("TOKEN INVALID");
 
                 if (empty($tokens))
