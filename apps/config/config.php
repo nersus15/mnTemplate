@@ -7,7 +7,7 @@ define("APP_NAME", 'mnframework');
 define('DOMAIN_NAME', '');
 define('ENV', 'DEV'); // ["DEV", "PROD", "DEV_ONLINE"]
 define('PORT', null);
-define("VENDOR_PATH", "https://cdn.kamscode.tech/");
+define("VENDOR_PATH", "https://cdn.kamscodelab.tech/");
 define('APP_PATH', str_replace('config', '', __DIR__));
 define('PROJECT_PATH', str_replace('apps/', '', APP_PATH));
 define('ASSETS_PATH', str_replace('apps', '', APP_PATH) . 'public/asset/');
