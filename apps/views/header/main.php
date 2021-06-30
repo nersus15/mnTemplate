@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="id">
-
+<?php 
+    $manifest = json_decode(file_get_contents(STATIC_PATH . "docs/manifest.json"));
+?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:type" content="website" >
-    <meta name="description" content="<?php echo isset($desc) ? $desc : 'Website Himpunan Pelajar Mahasiswa Sukarara (HIPELMAS)'?>">
+    <meta name="description" content="<?php echo isset($desc) ? $desc : $manifest->description?>">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <meta name="keywords" content="hipelmas">
-    <meta name="keywords" content="himpunan mahasiswa sukarara">
-    <meta name="keywords" content="sukarara">
-    <meta property="og:title" content="<?php echo isset($konten) ? $konten : 'HIPELMAS' ?>">
-    <meta property="og:description" content="<?php echo isset($desc) ? $desc : 'Website Himpunan Pelajar Mahasiswa Sukarara (HIPELMAS)'?>">
+    <?php if(!empty($manifest->keywords)):
+        foreach($manifest->keywords as $key):?>
+            <meta name="keywords" content="<?= $key ?>">
+    <?php endforeach;endif?>
+    <meta property="og:title" content="<?php echo isset($konten) ? $konten : APP_NAME ?>">
+    <meta property="og:description" content="<?php echo isset($desc) ? $desc : $manifest->description?>">
     <meta property="og:url" content="<?php echo BASEURL ?>">
-    <meta property="og:image" content="<?php echo isset($thumb) ? STATIC_PATH . $thumb  : STATIC_PATH . 'img/logo/hipelmas.png' ?>">
+    <?php if(isset($thumb) || isset($manifest->image)): ?>
+        <meta property="og:image" content="<?php echo isset($thumb) ? STATIC_PATH . $thumb  : STATIC_PATH . $manifest->image ?>">
+    <?php endif?>
     <meta property="og:image:width" content="2250" />
-    <meta property="og:image:height" content="2250" />
-    <link rel="icon" type="image/gif" href="<?php echo STATIC_PATH . 'img/logo/hipelmas.png' ?>">
-    
-    <title><?php echo isset($title) ? $title : 'Hipelmas'; ?></title>
+    <meta property="og:image:height" content="2250" />>
+    <?php if(isset($manifest->image)): ?>
+    <link rel="icon" type="image/gif" href="<?php echo  STATIC_PATH . $manifest->image ?>">
+    <?php endif?>
+    <title><?php echo isset($title) ? $title : APP_NAME; ?></title>
     <?php
     // var_dump($resource);die;
     if (isset($resource) && !empty($resource)) {
@@ -60,3 +66,4 @@
             <div class="c-overlay-text">Loading</div>
         </div>
     <?php endif ?>
+    
