@@ -20,7 +20,7 @@
         <meta property="og:image" content="<?php echo isset($thumb) ? STATIC_PATH . $thumb  : STATIC_PATH . $manifest->image ?>">
     <?php endif?>
     <meta property="og:image:width" content="2250" />
-    <meta property="og:image:height" content="2250" />>
+    <meta property="og:image:height" content="2250" />
     <?php if(isset($manifest->image)): ?>
     <link rel="icon" type="image/gif" href="<?php echo  STATIC_PATH . $manifest->image ?>">
     <?php endif?>
