@@ -47,3 +47,8 @@ String.prototype.rupiahFormat = function () {
     }
     return rupiah;
 }
+
+String.prototype.isEmail = function (text) {
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  return regex.test(text);
+}
