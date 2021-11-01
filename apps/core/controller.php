@@ -6,10 +6,16 @@ class controller
     private $views = [];
     private $params = ['params' => []];
     private $region = [];
-
+    public $db;
     public function __construct()
     {
-        $this->instance = &$this;
+        $this->instance =& $this;
+        if(class_exists('qbuilder'))
+            $this->db = new qbuilder();
+        else{
+            require_once "../helpers/qbuilder.php";
+            $this->db = new qbuilder();
+        }
     }
     public function view($view, $data = [])
     {

@@ -21,6 +21,22 @@ class apps extends Route
 
         if (!$isrout) {
             $url = $this->parseURL();
+            if (!empty($url) && count($url) >= 2 && httpmethod('GET')) {
+                $last = count($url) - 1;
+                if (stristr($url[$last], '?')) {
+                    $segments = explode('?', $url[$last]);
+                    if (count($segments) != 2)
+                        return;
+                    $url[$last] = $segments[0];
+
+                    foreach (explode('&', $segments[1]) as $get) {
+                        $key_value = explode("=", $get);
+                        $_GET[$key_value[0]] = $key_value[1];
+                    }
+                }
+                unset($_GET['url']);
+
+            }
             if (!empty($url)) {
                 if (count($url) > 1 && file_exists(APP_PATH . 'controller/' . $url[0] . '/' . $url[1] . '.php')) {
                     $this->controller_path = APP_PATH . 'controller/' . $url[0] . '/' . $url[1] . '.php';
@@ -89,7 +105,7 @@ class apps extends Route
                         die;
                     }
                 }
-                response("function " . $this->method . "_" . strtolower(get_httpmethod()) . " tidak ditemukan pada class" . $this->controller_path);
+                response("function " . $this->method . "_" . strtolower(get_httpmethod()) . " tidak ditemukan pada class " . $this->controller_path, 500);
             }
         }
     }

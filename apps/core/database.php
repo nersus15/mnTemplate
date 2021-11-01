@@ -75,23 +75,12 @@ class database
     }
     public function result_object()
     {
-
-        $num = $this->rowCount();
-        if ($num > 0) {
-            $passwords['item'] = array();
-            while ($row = $this->stmt->fetch(PDO::FETCH_ASSOC)) {
-                extract($row);
-                $item = array(
-                    "site" => isset($site) ? $site : null,
-                    "url" => isset($url) ? $url : null,
-                    "username" => isset($username) ? $username : null,
-                    "password" => isset($password) ? $password : null,
-                    "pemilik" => isset($pemilik) ? $pemilik : null,
-                );
-                array_push($passwords['item'], $item);
-            }
-        }
-        return $passwords['item'];
+        $data = $this->resultSet();
+        $object = [];
+        foreach($data as $k => $v)
+            $object[$k] = (object) $v;
+        
+        return $object;
     }
     public function single_object()
     {
