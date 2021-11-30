@@ -7,15 +7,12 @@ function buat_form($template, $id = null, $formdata = array(), $tipe = 'file'){ 
     /** @var controller */
     $controller = core();
     $key = "_token_";
-    $token_akses = random(15);
-    // TODO LOAD DATA AND STORE TO SESSION [$token_akses => $jwt->encode($data)]
-    $data = array("waktu_akses" => waktu(), 'formid' => $id);
-    set_userdata("_wrapped_data_", array($token_akses => $jwt->encode("_formtoken_", $data)));
+    $token_akses = $jwt->minta_token($id);
 
     if($tipe == 'file'){
         if (!empty($formdata))
             extract($formdata);
-            
+
         ob_start();
         require_once APP_PATH . 'views/' . $template . '.php';
         $view = ob_get_clean();

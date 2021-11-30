@@ -93,14 +93,14 @@ class apps extends Route
                 else
                     $normal_method[] = $m;
             }
-            if (httpmethod())
-                $this->hook->formProtected($_POST);
 
             if (in_array($this->method, $normal_method))
                 call_user_func_array([$controller, $this->method], $this->parameter);
             else {
                 foreach ($specific_method as $m) {
                     if ($m['method_name'] == $this->method . "_" . $m['tipe'] && httpmethod($m['tipe'])) {
+                        if (httpmethod())
+                            $this->hook->formProtected($_POST);
                         call_user_func_array([$controller, $this->method . "_" . $m['tipe']], $this->parameter);
                         die;
                     }

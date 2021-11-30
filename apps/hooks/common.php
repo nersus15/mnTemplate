@@ -5,6 +5,7 @@ class commonHook
     {
         if (SECURE_FORM) {
             $tokens = get_userdata("_token_");
+            if($tokens === null) $tokens = [];
             $token = null;
             $valid = false;
             if (empty($post))
