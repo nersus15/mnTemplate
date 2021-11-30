@@ -1,10 +1,18 @@
 <?php
-function is_login($role = null, $user = null)
+
+use Firebase\JWT\JWT;
+
+function is_login($role = null, $user = null, $jwt = null)
 {
     /** @var qbuilder $db */
     $db = new qbuilder();
 
-    if (!JWT_AUTH)
+    $gunakanJWT = JWT_AUTH;
+
+    if(!empty($jwt))
+        $gunakanJWT = $jwt;
+
+    if (!$gunakanJWT)
         $userdata = sessiondata('login'); //sessiondata('login')
     else {
         $token = isset($_POST['_token']) ? $_POST['_token'] : null;
@@ -26,26 +34,26 @@ function is_login($role = null, $user = null)
     }
 
     if (empty($role) && empty($user)) {
-        if (JWT_AUTH)
+        if ($gunakanJWT)
             return $isLogin;
         else
             return !empty($userdata);
     } elseif (!empty($userdata) && !empty($role) && empty($user)) {
-        if (JWT_AUTH)
+        if ($gunakanJWT)
             return $data['role'] == $role;
-        elseif (!JWT_AUTH && $role == 'bendahara')
+        elseif (!$gunakanJWT && $role == 'bendahara')
             return $userdata['role'] == 'bendahara 1' || $userdata['role'] == 'bendahara 2';
-        elseif (!JWT_AUTH && $role == 'admin')
+        elseif (!$gunakanJWT && $role == 'admin')
             return $userdata['role'] == 'ketua yayasan' || $userdata['role'] == 'kepala sekolah';
-        elseif (!JWT_AUTH && $role != 'bendahara')
+        elseif (!$gunakanJWT && $role != 'bendahara')
             return $userdata['role'] == $role;
     } elseif (!empty($userdata) && empty($role) && !empty($user)) {
-        if (JWT_AUTH)
+        if ($gunakanJWT)
             $data['username'] == $user;
         else
             return $userdata['username'] == $user;
     } elseif (!empty($userdata) && !empty($role) && !empty($user)) {
-        if (JWT_AUTH)
+        if ($gunakanJWT)
             return $data['username'] == $user && $data['role'] == $role;
         else
             return $userdata['username'] == $user && $userdata['role'] == $role;
