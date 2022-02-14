@@ -7,4 +7,5 @@
 /apps/controller
 .history
 /apps/config
+error_log
 # ################
