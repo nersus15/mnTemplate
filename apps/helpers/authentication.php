@@ -8,7 +8,7 @@ function is_login($role = null, $user = null)
         $userdata = sessiondata('login'); //sessiondata('login')
     else {
         $token = isset($_POST['_token']) ? $_POST['_token'] : null;
-        list($isLogin, $data) = verfify_token($token);
+        list($isLogin, $data) = verify_token($token);
     }
     if (!empty($userdata) && SYNC_DATAUSER) {
         $db->select('users.username, anggota.*');
@@ -33,11 +33,7 @@ function is_login($role = null, $user = null)
     } elseif (!empty($userdata) && !empty($role) && empty($user)) {
         if (JWT_AUTH)
             return $data['role'] == $role;
-        elseif (!JWT_AUTH && $role == 'bendahara')
-            return $userdata['role'] == 'bendahara 1' || $userdata['role'] == 'bendahara 2';
-        elseif (!JWT_AUTH && $role == 'admin')
-            return $userdata['role'] == 'ketua yayasan' || $userdata['role'] == 'kepala sekolah';
-        elseif (!JWT_AUTH && $role != 'bendahara')
+        elseif (!JWT_AUTH)
             return $userdata['role'] == $role;
     } elseif (!empty($userdata) && empty($role) && !empty($user)) {
         if (JWT_AUTH)
@@ -57,7 +53,16 @@ function loginTryCount(){
 }
 
 function verify_token($token){
+    $token_gen = new Token();
+    if(empty($token))
+        return[false, []];
+    $data = $token_gen->decode($token, 'login');
+    if(!$data)
+        return [false, []];
+    elseif($data->login_at < waktu())
+        return [false, []];
     
+    return [true, $data];
 }
 
 function token_register_checker($token)

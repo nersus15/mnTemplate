@@ -30,7 +30,7 @@ function macAddress($return = false)
 }
 function core($class = 'controller')
 {
-    include_once APP_PATH . 'core/' . $class . '.php';
+    include_once APP_PATH . 'core' . DIRECTORY_SEPARATOR . $class . '.php';
     $instance = new $class;
     return $instance;
 }
@@ -51,8 +51,8 @@ function config_item($file = '', $params = null)
         } else
             $index = "['$params']";
     }
-    if (file_exists(APP_PATH . 'config/' . $file . '.php')) {
-        $file_path =  APP_PATH . 'config/' . $file . '.php';
+    if (file_exists(APP_PATH . 'config'. DIRECTORY_SEPARATOR . convert_path($file) . '.php')) {
+        $file_path =  APP_PATH . 'config' . DIRECTORY_SEPARATOR . convert_path($file) . '.php';
         require($file_path);
         if (!empty($params)) {
             $str = '$configItem = $config' . $index . ';';
@@ -249,7 +249,7 @@ function include_view($path, $data = null)
     if (is_array($data))
         extract($data);
     // var_dump(APP_PATH . 'views/' . $path . '.php');die;
-    include APP_PATH . 'views/' . $path . '.php';
+    include APP_PATH . 'views' . DIRECTORY_SEPARATOR . convert_path($path) . '.php';
 }
 function rupiah_format($angka)
 {
@@ -295,4 +295,14 @@ function search_part($arr, $search, $callback = null){
      else
        return $data != -1;
     
+  }
+
+  function get_path($path = null, $type = 'view'){
+    $path = empty($path) ? '.' : $path;
+    $path = str_replace('.', DIRECTORY_SEPARATOR, $path);
+    return APP_PATH . $path;
+  }
+
+  function convert_path($path){
+    return DIRECTORY_SEPARATOR == "\\" ? str_replace("/", "\\", $path) : $path;
   }

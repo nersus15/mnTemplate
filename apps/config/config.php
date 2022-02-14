@@ -9,8 +9,8 @@ define('ENV', 'DEV'); // ["DEV", "PROD", "DEV_ONLINE"]
 define('PORT', null);
 define("VENDOR_PATH", "https://cdn.kamscodelab.tech/");
 define('APP_PATH', str_replace('config', '', __DIR__));
-define('PROJECT_PATH', str_replace('apps/', '', APP_PATH));
-define('ASSETS_PATH', str_replace('apps/', '', APP_PATH) . 'public/asset/');
+define('PROJECT_PATH', str_replace('apps' . DIRECTORY_SEPARATOR, '', APP_PATH));
+define('ASSETS_PATH', str_replace('apps' . DIRECTORY_SEPARATOR, '', APP_PATH) . 'public'. DIRECTORY_SEPARATOR .'assets'. DIRECTORY_SEPARATOR);
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
@@ -21,7 +21,7 @@ define('DEF_THEME', TRUE);
 define("JWT_AUTH", true);
 define("SYNC_DATAUSER", FALSE);
 define('IS_ROUTE', true);
-define('DEPENDENCIES_PATH', str_replace('apps/', '', APP_PATH) . 'vendor/');
+define('DEPENDENCIES_PATH', str_replace('apps' . DIRECTORY_SEPARATOR, '', APP_PATH) . 'vendor' . DIRECTORY_SEPARATOR);
 date_default_timezone_set('Asia/Singapore');
 define("DEBUG_MODE", true);
 define("SECURE_FORM", true); // if true, form must create with buat_form() to add token validation

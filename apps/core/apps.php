@@ -38,15 +38,15 @@ class apps extends Route
 
             }
             if (!empty($url)) {
-                if (count($url) > 1 && file_exists(APP_PATH . 'controller/' . $url[0] . '/' . $url[1] . '.php')) {
-                    $this->controller_path = APP_PATH . 'controller/' . $url[0] . '/' . $url[1] . '.php';
+                if (count($url) > 1 && file_exists(APP_PATH . 'controller' . DIRECTORY_SEPARATOR . convert_path($url[0]) . DIRECTORY_SEPARATOR . $url[1] . '.php')) {
+                    $this->controller_path = APP_PATH . 'controller' . DIRECTORY_SEPARATOR . convert_path($url[0]) . DIRECTORY_SEPARATOR . $url[1] . '.php';
                     $this->controller = $url[1];
                     if (count($url) >= 3) {
                         $this->method = $url[2];
                         unset($url[0], $url[1], $url[2]);
                     }
-                } elseif (file_exists(APP_PATH . 'controller/' . $url[0] . '.php')) {
-                    $this->controller_path = APP_PATH . 'controller/' . $url[0] . '.php';
+                } elseif (file_exists(APP_PATH . 'controller' . DIRECTORY_SEPARATOR . convert_path($url[0]) . '.php')) {
+                    $this->controller_path = APP_PATH . 'controller' . DIRECTORY_SEPARATOR . convert_path($url[0]) . '.php';
                     $this->controller = $url[0];
                     if (count($url) >= 2) {
                         $this->method = $url[1];
@@ -57,10 +57,10 @@ class apps extends Route
                     response(['message' => 'Halaman yang anda tuju tidak ditemukan', 'path' => $this->controller . '/' . $this->method], 404, 'error');
                 }
             } else {
-                if (!file_exists(APP_PATH . 'controller/' . $this->controller . '.php')) {
+                if (!file_exists(APP_PATH . 'controller' . DIRECTORY_SEPARATOR . convert_path($this->controller). '.php')) {
                     response(['message' => 'Halaman yang anda tuju tidak ditemukan', 'path' => $this->controller . '/' . $this->method], 404, 'error');
                 } else {
-                    $this->controller_path = APP_PATH . 'controller/' . $this->controller . '.php';
+                    $this->controller_path = APP_PATH . 'controller' . DIRECTORY_SEPARATOR . convert_path($this->controller) . '.php';
                 }
             }
 

@@ -4,9 +4,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 function sendemail($email_tujuan, $pesan = null, $subject = null, $nama_pengirim = 'Keuangan BQN', $email_pengirim = 'kamscode@kamscode.tech')
 {
-    require DEPENDENCIES_PATH . 'phpmailer/phpmailer/src/Exception.php';
-    require DEPENDENCIES_PATH . 'phpmailer/phpmailer/src/PHPMailer.php';
-    require DEPENDENCIES_PATH . 'phpmailer/phpmailer/src/SMTP.php';
+    require DEPENDENCIES_PATH . convert_path('phpmailer/phpmailer/src/Exception.php');
+    require DEPENDENCIES_PATH . convert_path('phpmailer/phpmailer/src/PHPMailer.php');
+    require DEPENDENCIES_PATH . convert_path('phpmailer/phpmailer/src/SMTP.php');
     $mail = new PHPMailer(TRUE);
 
     try {

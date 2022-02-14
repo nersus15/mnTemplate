@@ -48,6 +48,7 @@
             $data = $data[0];
             if(password_verify($input['password'], $data->password)){
                 unset($data->password);
+                // Simpan data user yang login kedalam session kecuali password
                 set_userdata("login", $data);
                 response("Login Berhasil");
             }else

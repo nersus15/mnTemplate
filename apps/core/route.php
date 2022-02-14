@@ -14,7 +14,7 @@ class Route
         if (!IS_ROUTE)
             return false;
         elseif (IS_ROUTE) {
-            include_once APP_PATH . 'routes/routes.php';
+            include_once APP_PATH . 'routes'. DIRECTORY_SEPARATOR .'routes.php';
             $res = $this->run_routes($url);
             return $res;
         }
@@ -91,12 +91,12 @@ class Route
 
                 } elseif (!is_array($routes[$url_valid . ':' . $v['http_method']])) {
                     $route = explode('@', $routes[$url_valid . ':' . $v['http_method']]);
-                    $controller_path = APP_PATH . 'controller/' . strtolower($route[0]) . '.php';
-                    $registered_controller_path = APP_PATH . 'controller/' . strtolower($route[0]) . '.php';
+                    $controller_path = APP_PATH . 'controller' . DIRECTORY_SEPARATOR . strtolower($route[0]) . '.php';
+                    $registered_controller_path = APP_PATH . 'controller' . DIRECTORY_SEPARATOR . strtolower($route[0]) . '.php';
                     if (is_file($controller_path))
                         require_once $controller_path;
                     else {
-                        $controller_path = 'controller/' . str_replace($route[0][0], strtoupper($route[0][0]), $route[0]) . '.php';
+                        $controller_path = 'controller' . DIRECTORY_SEPARATOR . str_replace($route[0][0], strtoupper($route[0][0]), $route[0]) . '.php';
                         if (is_file($controller_path))
                             require_once $controller_path;
                         else

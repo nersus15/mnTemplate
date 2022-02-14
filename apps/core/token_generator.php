@@ -5,10 +5,10 @@
     private $used_token = [];
     private $jwt;
         public function __construct() {
-            require_once DEPENDENCIES_PATH . "firebase/php-jwt/src/JWT.php";
-            require_once DEPENDENCIES_PATH . "firebase/php-jwt/src/SignatureInvalidException.php";
-            require_once DEPENDENCIES_PATH . "firebase/php-jwt/src/BeforeValidException.php";
-            require_once DEPENDENCIES_PATH . "firebase/php-jwt/src/ExpiredException.php";
+            require_once DEPENDENCIES_PATH . "firebase". DIRECTORY_SEPARATOR ."php-jwt". DIRECTORY_SEPARATOR ."src". DIRECTORY_SEPARATOR ."JWT.php";
+            require_once DEPENDENCIES_PATH . "firebase". DIRECTORY_SEPARATOR ."php-jwt". DIRECTORY_SEPARATOR ."src". DIRECTORY_SEPARATOR ."SignatureInvalidException.php";
+            require_once DEPENDENCIES_PATH . "firebase". DIRECTORY_SEPARATOR ."php-jwt". DIRECTORY_SEPARATOR ."src". DIRECTORY_SEPARATOR ."BeforeValidException.php";
+            require_once DEPENDENCIES_PATH . "firebase". DIRECTORY_SEPARATOR ."php-jwt". DIRECTORY_SEPARATOR ."src". DIRECTORY_SEPARATOR ."ExpiredException.php";
             $this->jwt = new JWT;
         }
         function encode($key, $data, $alg = "HS256"){

@@ -11,7 +11,7 @@ function buat_form($template, $id = null, $data = array(), $tipe = 'file'){ // $
 
     if($tipe == 'file'){
         ob_start();
-        require_once APP_PATH . 'views/' . $template . '.php';
+        require_once APP_PATH . 'views' . DIRECTORY_SEPARATOR . convert_path($template) . '.php';
         $view = ob_get_clean();
         // $key = password_hash("_token_", PASSWORD_DEFAULT);
         $key = "_token_";

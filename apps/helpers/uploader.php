@@ -32,12 +32,12 @@ function upload_image($gambar, $tujuan, $conf = null)
             $nama_image =  $config['name'] . '.' . $format_file;
 
         try {
-            move_uploaded_file($tmp, $tujuan . '/' . $nama_image);
+            move_uploaded_file($tmp, $tujuan . DIRECTORY_SEPARATOR . convert_path($nama_image));
         } catch (\Exception $err) {
             response(['message' => 'Gagal upload file', 'err' => $err->getMessage()], 500);
         }
         if (isset($config['sebelum']) && !empty($config['sebelum'])) {
-            unlink($tujuan . '/' . $config['sebelum']);
+            unlink($tujuan . DIRECTORY_SEPARATOR . convert_path($config['sebelum']));
         }
         return $nama_image;
     }

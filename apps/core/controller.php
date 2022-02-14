@@ -22,26 +22,26 @@ class controller
         extract($data);
         // var_dump(APP_PATH . 'views/' . $view . '.php');die;
         try {
-            require_once APP_PATH . 'views/' . $view . '.php';
+            require_once APP_PATH . 'views' . DIRECTORY_SEPARATOR . convert_path($view). '.php';
         } catch (\Throwable $th) {
             response(['message' => 'error', 'err' => print_r($th, true)], 404);
         }
     }
     public function model($model, $prefixs = null)
     {
-        require_once APP_PATH . 'models/' . $model . '.php';
+        require_once APP_PATH . 'models' . DIRECTORY_SEPARATOR . convert_path($model) . '.php';
         $class = $lib . $prefixs;
         $model = new $class();
         $this->{$lib} = $model;
     }
     public function helper($helper)
     {
-        require_once APP_PATH . 'helpers/' . $helper . '.php';
+        require_once APP_PATH . 'helpers' . DIRECTORY_SEPARATOR . convert_path($helper) . '.php';
     }
 
     public function library($lib)
     {
-        require_once APP_PATH . 'library/' . $lib . '.php';
+        require_once APP_PATH . 'library' . DIRECTORY_SEPARATOR . convert_path($lib) . '.php';
         $class = $lib . '_lib';
         $library = new $class();
         $this->{$lib} = $library;
@@ -82,7 +82,7 @@ class controller
     }
     function error_page($file, $params, $type = 'html')
     {
-        $this->load->view('errors/' . $type . '/' . $file, $params);
+        $this->load->view('errors' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $file, $params);
     }
     function add_cachedJavascript($js, $type = 'file', $pos="body:end", $data = array())
     {        
@@ -91,8 +91,9 @@ class controller
                 ob_start();
                 if (!empty($data))
                     extract($data);
-
-                include_once ASSETS_PATH . 'js/' . $js . '.js';
+                    
+                
+                include_once ASSETS_PATH . 'js' . DIRECTORY_SEPARATOR . convert_path($js) . '.js';
             }
 
             $this->params['extra_js'][] = array(
@@ -119,7 +120,7 @@ class controller
             if (!empty($data))
                 extract($data);
             try {
-                include_once ASSETS_PATH . 'css/' . $css . '.css';   
+                include_once ASSETS_PATH . 'css' . DIRECTORY_SEPARATOR . convert_path($css) . '.css';   
             } catch (\Throwable $th) {
                 print_r($th);
             }
@@ -149,13 +150,13 @@ class controller
             $this->view($view, $this->params);
         }
         if(empty($this->views)){
-            $this->view('header/main', $this->params);
+            $this->view('header'. DIRECTORY_SEPARATOR .'main', $this->params);
         }
         foreach($this->region as $view){
             echo $view;
         }
         if(empty($this->views)){
-            $this->view('footer/main', $this->params);
+            $this->view('footer'. DIRECTORY_SEPARATOR .'main', $this->params);
         }
         $this->views = [];
         $this->params = [];
