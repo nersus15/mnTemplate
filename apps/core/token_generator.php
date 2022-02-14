@@ -44,4 +44,12 @@
 
             return $data;            
         }
+
+        function minta_token($id){            
+            $token_akses = random(15);
+            // TODO LOAD DATA AND STORE TO SESSION [$token_akses => $jwt->encode($data)]
+            $data = array("waktu_akses" => waktu(), 'idakses' => $id);
+            set_userdata("_wrapped_data_", array($token_akses => $this->encode("_formtoken_", $data)));
+            return $token_akses;
+        }
     }
