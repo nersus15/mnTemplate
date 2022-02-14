@@ -305,4 +305,112 @@ function search_part($arr, $search, $callback = null){
 
   function convert_path($path){
     return DIRECTORY_SEPARATOR == "\\" ? str_replace("/", "\\", $path) : $path;
-  }
+  }    
+
+  /**
+   * @param String $text
+   * @param String $type ['AN', 'AZ'] - [default: 'AN']
+   * @return String
+   */
+    function sandi($text, $type = "AN"){
+        $result = null;
+        $an = [
+            'a' => 'n',
+            'b' => 'o',
+            'c' => 'p',
+            'd' => 'q',
+            'e' => 'r',
+            'f' => 's',
+            'g' => 't',
+            'h' => 'u',
+            'i' => 'v',
+            'j' => 'w',
+            'k' => 'x',
+            'l' => 'y',
+            'm' => 'z',
+            'A' => 'N',
+            'B' => 'O',
+            'C' => 'P',
+            'D' => 'Q',
+            'E' => 'R',
+            'F' => 'S',
+            'G' => 'T',
+            'H' => 'U',
+            'I' => 'V',
+            'J' => 'W',
+            'K' => 'X',
+            'L' => 'Y',
+            'M' => 'Z',
+            '-' => '+',
+            '_' => '=',
+            '@' => '#',
+            '&' => '!',
+            ' ' => '*',
+        ];
+        $az = [
+            'a' => 'z',
+            'b' => 'y',
+            'c' => 'x',
+            'd' => 'w',
+            'e' => 'v',
+            'f' => 'u',
+            'g' => 't',
+            'h' => 's',
+            'i' => 'r',
+            'j' => 'q',
+            'k' => 'p',
+            'l' => 'o',
+            'm' => 'n',
+            'n' => 'm',
+            'o' => 'l',
+            'p' => 'k',
+            'q' => 'j',
+            'r' => 'i',
+            's' => 'h',
+            't' => 'g',
+            'u' => 'f',
+            'v' => 'e',
+            'w' => 'd',
+            'x' => 'c',
+            'y' => 'b',
+            'z' => 'a',
+
+            'A' => 'N',
+            'B' => 'O',
+            'C' => 'P',
+            'D' => 'Q',
+            'E' => 'R',
+            'F' => 'S',
+            'G' => 'T',
+            'H' => 'U',
+            'I' => 'V',
+            'J' => 'W',
+            'K' => 'X',
+            'L' => 'Y',
+            'M' => 'Z',
+
+            '-' => '+',
+            '_' => '=',
+            '@' => '#',
+            '&' => '!',
+            ' ' => '*',
+        ];
+        $an_flip = array_flip($an);
+        $az_flip = array_flip($az);
+        if($type == "AN"){
+            foreach(str_split($text) as $char){
+                if(isset($an[$char]))
+                    $result .= $an[$char];
+                elseif(isset($an_flip[$char]))
+                    $result .= $an_flip[$char];
+            }
+        }else if($type == "AZ"){
+            foreach(str_split($text) as $char){
+                if(isset($az[$char]))
+                    $result .= $az[$char];
+                elseif(isset($az_flip[$char]))
+                    $result .= $az_flip[$char];
+            }
+        }
+        return $result;
+    }

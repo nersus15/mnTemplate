@@ -41,10 +41,14 @@ function fieldmapping($input, $conf, $defaultValue = array(), $petaNilai = array
         response(['message' => 'Config form ' . $config . ' Kosong'], 404);
 
     foreach ($config as $k => $v) {
+        if(SECURE_FORM){
+            $k = sandi($k);
+        }
+
         if (isset($input[$k]))
             $field[$v] = $input[$k];
         elseif(!isset($input[$k]) && $adaDefault && in_array($k, array_keys($defaultValue)))
-            $field[$v] = $defaultValue[$k];
+            $field[$v] = $defaultValue[sandi($k)];
     }
     if($adaPeta){
         foreach($petaNilai as $f => $peta){
