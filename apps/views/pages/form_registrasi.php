@@ -45,22 +45,12 @@
                         <p></p>
                     </div>
                 </div>
-
                 <?php
-                if ($isValidToken) {
                     include_view('forms/registrasi_bio');
                     include_view('forms/registrasi_pendidikan');
                     include_view('forms/registrasi_organisasi');
                     include_view('forms/registrasi_tambahan');
-                } else {
                 ?>
-                    <div class="form-group">
-                        <label for="">Token registrasi</label>
-                        <input type="text" name="" id="token" placeholder="Masukkan token registrasi untuk mengisi form">
-                        <p style="display: none;" id="token-err" class="text-danger">Token belum diisi</p>
-                    </div>
-                    <button type="button" id="btn-submit-token" class="btn btn-sm btn-primary">Submit</button>
-                <?php } ?>
             </form>
         </div>
     </div>

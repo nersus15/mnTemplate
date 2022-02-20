@@ -145,7 +145,7 @@ class controller
         }
     }
     public function render()
-    {
+    {   
         foreach ($this->views as $view) {
             $this->view($view, $this->params);
         }

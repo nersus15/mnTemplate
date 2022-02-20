@@ -1,12 +1,12 @@
 <?php
 $secure = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on';
 // APP_NAME harus sama dengan nama folder project (karena itu akan berpengaruh pada routing), misal nama project adalah penjualanEs maka APP_NAME harus diganti dari template ke penjualanES
-define("APP_NAME", 'mnframework');
+define("APP_NAME", 'mnTemplateTest');
 
 // Aktifkan DOMAIN_NAME dan masukkan nama domain ketika ENV di set ke PROD atau DEV_ONLINE, jika tidak maka akan terjadi error
 define('DOMAIN_NAME', '');
 define('ENV', 'DEV'); // ["DEV", "PROD", "DEV_ONLINE"]
-define('PORT', null);
+define('PORT', 8080);
 define("VENDOR_PATH", "https://cdn.kamscodelab.tech/");
 define('APP_PATH', str_replace('config', '', __DIR__));
 define('PROJECT_PATH', str_replace('apps' . DIRECTORY_SEPARATOR, '', APP_PATH));
@@ -14,7 +14,7 @@ define('ASSETS_PATH', str_replace('apps' . DIRECTORY_SEPARATOR, '', APP_PATH) . 
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'app.terasinovasi');
+define('DB_NAME', 'ada');
 define('controller_def', 'contoh');
 define('method_def', 'index');
 define('DEF_THEME', TRUE);
