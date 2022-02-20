@@ -25,6 +25,12 @@
     <link rel="icon" type="image/gif" href="<?php echo  STATIC_PATH . $manifest->image ?>">
     <?php endif?>
     <title><?php echo isset($title) ? $title : APP_NAME; ?></title>
+    <script>
+        var path = location.origin + '/';
+        var secure_form = <?= SECURE_FORM ? 1 : 0 ?>;
+            secure_form = secure_form == 1;
+    </script>
+    
     <?php
     // var_dump($resource);die;
     if (isset($resource) && !empty($resource)) {
@@ -55,9 +61,7 @@
         }
     }
     ?>
-    <script>
-        var path = location.origin + '/';
-    </script>
+    
 </head>
 
 <body id="app-container" class="<?php echo DEF_THEME ? 'menu-default' : null ?>">
