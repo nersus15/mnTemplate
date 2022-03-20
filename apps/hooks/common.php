@@ -22,14 +22,14 @@ class commonHook
             // }
            
 
-            if (/* !$valid */!isset($post['_token_']))
+            if (/* !$valid */!isset($post[sandi('_token_')]))
                 response("JIKA MENGAKTIFKAN SECURE_FORM MAKA FORM HANYA BOLEH DIAKSES JIKA ADA TOKEN", 400);
             else {
-                $token = $post['_token_'];
+                $token = $post[sandi('_token_')];
                 if(in_array($token, $tokens))
                     response("TOKEN SUDAH DIGUNAKAN", 400);
                 $wrapped_data = get_userdata("_wrapped_data_");
-                $form_data = $wrapped_data[$post['_token_']];
+                $form_data = $wrapped_data[$token];
                 $jwt = new Token;
                 if(empty($form_data) || !$jwt->decode($form_data, '_formtoken_'))
                     response("TOKEN INVALID");

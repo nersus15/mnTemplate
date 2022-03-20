@@ -1,7 +1,7 @@
 <?php
 $jwt = new Token;
 // SECURE FORM
-function buat_form($template, $id = null, $formdata = array(), $tipe = 'file'){ // $tipe = ['file', 'html'] html berarti html langsung
+function buat_form($template, $id = null, $action = null, $formdata = array(), $tipe = 'file'){ // $tipe = ['file', 'html'] html berarti html langsung
     global $jwt;
 
     /** @var controller */
@@ -32,6 +32,7 @@ function fieldmapping($input, $conf, $defaultValue = array(), $petaNilai = array
 {
     $config = config_item('forms', array('field_mapping', $conf));
     $field = array();
+    $reverseConfig = array_flip($config);
     $adaDefault = count($defaultValue) > 0;
     $adaPeta = count($petaNilai) > 0;
     if (empty($config))
@@ -50,8 +51,8 @@ function fieldmapping($input, $conf, $defaultValue = array(), $petaNilai = array
     if($adaPeta){
         foreach($petaNilai as $f => $peta){
             foreach($peta as $k => $v){
-                if($field[$f] == $k)
-                    $field[$f] = $v;
+                if(isset($field[$config[$f]]) && $field[$config[$f]] == $k)
+                    $field[$config[$f]] = $v;
             }
         }
     }
