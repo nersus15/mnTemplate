@@ -21,6 +21,7 @@ class apps extends Route
 
         if (!$isrout) {
             $url = $this->parseURL();
+            list($clz, $mtd) = $this->cek_hook();
             if (!empty($url) && count($url) >= 2 && httpmethod('GET')) {
                 $last = count($url) - 1;
                 if (stristr($url[$last], '?')) {
@@ -64,6 +65,14 @@ class apps extends Route
                 }
             }
 
+            foreach($clz as $k => $h){
+                if($k == 'before_construct')
+                    call_user_func_array($h['class'], $h['method'], []);
+            }
+            foreach($mtd as $k => $h){
+                if($k == 'before_construct')
+                    $h();
+            }
             require_once $this->controller_path;
             $controller = new $this->controller;
             // var_dump($this->method);die;
@@ -77,6 +86,7 @@ class apps extends Route
 
                 $this->parameter = array_values($url);
             }
+
 
             // cek tipe akses pada method(jika ada)  dan jalankan method 
             $methods = get_class_methods($controller);
@@ -94,14 +104,46 @@ class apps extends Route
                     $normal_method[] = $m;
             }
 
-            if (in_array($this->method, $normal_method))
+            if (in_array($this->method, $normal_method)){
+                foreach($clz as $k => $h){
+                    if($k == 'before_controller')
+                        call_user_func_array($h['class'], $h['method'], []);
+                }
+                foreach($mtd as $k => $h){
+                    if($k == 'before_controller')
+                        $h();
+                }
                 call_user_func_array([$controller, $this->method], $this->parameter);
-            else {
+                foreach($clz as $k => $h){
+                    if($k == 'after_controller')
+                        call_user_func_array($h['class'], $h['method'], []);
+                }
+                foreach($mtd as $k => $h){
+                    if($k == 'after_controller')
+                        $h();
+                }
+            }else {
                 foreach ($specific_method as $m) {
                     if ($m['method_name'] == $this->method . "_" . $m['tipe'] && httpmethod($m['tipe'])) {
                         if (httpmethod())
                             $this->hook->formProtected($_POST);
+                        foreach($clz as $k => $h){
+                            if($k == 'before_controller')
+                                call_user_func_array($h['class'], $h['method'], []);
+                        }
+                        foreach($mtd as $k => $h){
+                            if($k == 'before_controller')
+                                $h();
+                        }
                         call_user_func_array([$controller, $this->method . "_" . $m['tipe']], $this->parameter);
+                        foreach($clz as $k => $h){
+                            if($k == 'after_construct')
+                                call_user_func_array($h['class'], $h['method'], []);
+                        }
+                        foreach($mtd as $k => $h){
+                            if($k == 'after_controller')
+                                $h();
+                        }
                         die;
                     }
                 }
@@ -109,16 +151,62 @@ class apps extends Route
             }
         }
     }
-    public function parseURL()
+    public function parseURL($segmen = true)
     {
         $url = $this->get_link();
         $url = str_replace(BASEURL, '', $url);
-        return empty($url) ? $url : explode('/', $url);
+        if($segmen)
+            return empty($url) ? $url : explode('/', $url);
+        else
+            return $url;
     }
 
     public function get_link()
     {
         $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         return $actual_link;
+    }
+
+    private function cek_hook(){
+        $hooks = config_item('hooks', 'hooks');
+        $clz = new stdClass();
+        $mtd = new stdClass();
+        if(!empty($hooks)){
+            foreach ($hooks as $k => $v){
+               if(in_array($k, ['before_construct', 'before_controller', 'after_controller'])){
+                   if(isset($v['url'])){
+                        $url = $this->parseURL(false);
+                        if(empty($url)) $url = '/';
+
+                        if($v['url'] == $url){
+                           if(isset($v['class'])){
+                                require_once APP_PATH . 'hooks/' . $v['fpath'] . '.php'; 
+                                $tmp = new $v['class'];
+                                $clz->{$k} = [
+                                    'class' => $tmp,
+                                    'method' => $v['method'],
+                                    'hooks' => $v
+                                ];
+                            }else{
+                                $mtd->{$k} = $v['func'];
+                            }
+                        }
+                   }else{
+                    if(isset($v['class'])){
+                        require_once APP_PATH . 'hooks/' . $v['fpath'] . '.php'; 
+                        $tmp = new $v['class'];
+                        $clz->{$k} = [
+                            'class' => $tmp,
+                            'method' => $v['method'],
+                            'hooks' => $v
+                        ];
+                    }else{
+                        $mtd->{$k} = $v['func'];
+                    }
+                   }
+               }
+            }
+        }
+        return [$clz, $mtd];
     }
 }

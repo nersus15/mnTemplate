@@ -6,6 +6,6 @@
 /apps/views
 /apps/controller
 .history
-/apps/config
+/apps/config/config.php
 error_log
 # ################
