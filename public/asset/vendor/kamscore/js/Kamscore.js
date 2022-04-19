@@ -56,3 +56,9 @@ String.prototype.isEmail = function (text) {
 var detectDeviceType = function(){
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
 }
+var wait = function (ms) {
+    new Promise((resolve) => setTimeout(resolve, ms));
+}
+var asyncFunc = async function(callback, ms){
+    wait(ms).then(callback);
+}
