@@ -62,3 +62,23 @@ var wait = function (ms) {
 var asyncFunc = async function(callback, ms){
     wait(ms).then(callback);
 }
+var queryParams = function(key){
+    var urlParams = new URLSearchParams(window.location.search);
+    if (key)
+        return urlParams.get(key);
+    return urlParams;
+}
+var fixedFloat = (nilai, pembulatan) {
+    var n = nilai.toFixed(pembulatan);
+    var arr = /(\d+)\.0+$/.exec(n);
+    if (arr) return arr[1];
+    return n;
+}
+var ucwords = function(str) {
+    if (!str) return str;
+    str = str.toLowerCase();
+    return str.replace(/(^([a-zA-Z\p{M}]))|([ -][a-zA-Z\p{M}])/g,
+        function(s){
+            return s.toUpperCase();
+        });
+}, 
