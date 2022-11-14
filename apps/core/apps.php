@@ -180,7 +180,7 @@ class apps extends Route
 
                         if($v['url'] == $url){
                            if(isset($v['class'])){
-                                require_once APP_PATH . 'hooks/' . $v['fpath'] . '.php'; 
+                                require_once convert_path(APP_PATH . 'hooks/' . $v['fpath'] . '.php'); 
                                 $tmp = new $v['class'];
                                 $clz->{$k} = [
                                     'class' => $tmp,
@@ -193,7 +193,7 @@ class apps extends Route
                         }
                    }else{
                     if(isset($v['class'])){
-                        require_once APP_PATH . 'hooks/' . $v['fpath'] . '.php'; 
+                        require_once convert_path(APP_PATH . 'hooks/' . $v['fpath'] . '.php'); 
                         $tmp = new $v['class'];
                         $clz->{$k} = [
                             'class' => $tmp,

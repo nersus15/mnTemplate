@@ -21,9 +21,9 @@
  */
 
  $config['hooks'] = array(
-    'before_controller' => array(
-        'fpath' => 'handle_halaman',
-        'class' => 'HandleHalaman',
-        'method' => 'siapkan_halaman',
-    )
+    // 'before_controller' => array(
+    //     'fpath' => 'handle_halaman',
+    //     'class' => 'HandleHalaman',
+    //     'method' => 'siapkan_halaman',
+    // )
  );
